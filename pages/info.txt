@@ -1,0 +1,1 @@
+Esta carpeta contiene los ficheros php con el contenido de las páginas.

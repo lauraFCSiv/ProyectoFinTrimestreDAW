@@ -1,0 +1,1 @@
+Esta carpeta contiene los archivos javascript de la aplicación.

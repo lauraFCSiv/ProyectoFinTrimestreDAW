@@ -1,0 +1,1 @@
+Esta carpeta contiene los métodos de conexión a la base de datos.

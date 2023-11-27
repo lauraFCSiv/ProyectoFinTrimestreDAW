@@ -1,0 +1,1 @@
+Esta carpeta contiene los estilos de la aplicación.
