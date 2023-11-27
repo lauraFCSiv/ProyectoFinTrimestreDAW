@@ -1,0 +1,1 @@
+Esta carpeta contiene los métodos que recuperan/insertan datos de la vista en la base de datos.
