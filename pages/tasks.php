@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="StyleClaro.css">
+    <link rel="stylesheet" href="../styles/StylesClaro.css">
     <title>Tareas completadas</title>
 </head>
 
@@ -46,7 +46,7 @@
         <div class="row mt-5 align-items-center">
             <div class="col">
                 <div class="card text-center border border-black">
-                    <div class="card-header text-dark bg-warning">
+                    <div class="card-header text-dark">
                         <h5>Título de ejemplo + fecha</h5>
                     </div>
                     
@@ -54,14 +54,14 @@
                         <div class="card-text">
                             Categoría:
                         </div>
-                        <button class="btn btn-primary mt-2 text-bg-warning btn-outline-dark">Detalles</button>
+                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
 
                 </div>
             </div>
             <div class="col">
                 <div class="card text-center border border-black">
-                    <div class="card-header text-dark bg-warning">
+                    <div class="card-header text-dark">
                         <h5>Título de ejemplo + fecha</h5>
                     </div>
 
@@ -69,13 +69,13 @@
                         <div class="card-text">
                             Categoría
                         </div>
-                        <button class="btn btn-primary mt-2 text-bg-warning btn-outline-dark">Detalles</button>
+                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="card text-center border border-black">
-                    <div class="card-header text-dark bg-warning">
+                    <div class="card-header text-dark">
                         <h5>Título de ejemplo  + fecha</h5>
                     </div>
 
@@ -83,7 +83,7 @@
                         <div class="card-text">
                             Categoría
                         </div>
-                        <button class="btn btn-primary mt-2 text-bg-warning btn-outline-dark">Detalles</button>
+                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
                 </div>
             </div>
