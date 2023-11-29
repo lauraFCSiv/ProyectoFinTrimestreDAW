@@ -135,7 +135,7 @@ echo '<div class="input-group input-group-sm mb-3">';
 echo '<select class="custom-select" name="sort">';
 echo '<option value="category_name">Order by category</option>';
 echo '<option value="due_date">Order by date</option>';
-echo '<option value="user_id">Order by user</option>';
+echo '<option value="user_name">Order by user</option>';
 echo '</select>';
 echo '<div class="input-group-append">';
 echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
