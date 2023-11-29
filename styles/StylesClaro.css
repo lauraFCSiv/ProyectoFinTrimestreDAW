@@ -1,16 +1,29 @@
-
-header{
-    background-color: #D97706;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #fff7ed;
 }
+
+header {
+  background-color: #d97706;
+}
+
 footer {
-    margin-top: auto;
-    background-color: #D97706;
-    padding: 10px 0;
-    text-align: center;
+  margin-top: auto;
+  background-color: #d97706;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.btn-outline-primary {
+  background-color: #d97706;
+  color: #ffffff;
+  border: 1px solid #c36b05;
+}
+
+.btn-outline-primary:hover {
+  background-color: #c36b05;
+  color: #ffffff;
+  border: 1px solid #c36b05;
 }
