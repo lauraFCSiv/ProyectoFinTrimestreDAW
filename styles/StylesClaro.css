@@ -27,3 +27,15 @@ footer {
   color: #ffffff;
   border: 1px solid #c36b05;
 }
+
+/* //*Ventana: Tasks.php  */
+
+/* Cabezera de las cartas  */
+.card-header{
+  background-color: #d97706;
+}
+
+/* Botón de las cartas  */
+.buttonCards{
+  background-color: #d97706;
+}
