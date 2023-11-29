@@ -27,3 +27,15 @@ footer {
   color: #ffffff;
   border: 1px solid #191919;
 }
+
+@media screen and (max-width: 991px) {
+  .offcanvas-header{
+    background-color: #d97706;
+    color: #ffffff;
+  }
+  
+  .offcanvas-body{
+    background-color: #444444;
+    color: #ffffff;
+  }
+}
