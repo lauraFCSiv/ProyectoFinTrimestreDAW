@@ -39,5 +39,32 @@ function login($user, $password){
         return 'Usuario/Contraseña no valido/s';
     }
 }
+function searchTasksInDatabase($query) {
+   
+    // Verificar la conexión
+    if ($conn->connect_error) {
+        die("Connection fail: " . $conn->connect_error);
+    }
+
+    // Escapar caracteres especiales en la consulta
+    $query = $conn->real_escape_string($query);
+
+    // Realizar la consulta SQL para buscar tareas por nombre
+    $sql = "SELECT * FROM tasks WHERE name LIKE '%$query%'";
+    $result = $conn->query($sql);
+
+    // Almacenar los resultados en un array
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+
+    return $tasks;
+}
 
 ?>
