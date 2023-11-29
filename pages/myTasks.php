@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         echo '</div>';
         echo '<div class="card-body">';
         echo '<div class="card-text">';
-        echo 'Categoría: ' . $task['category_id']; // Ajusta según la columna real en tu base de datos
+        echo 'Categoría: ' . $task['category_id'];
         echo '</div>';
         echo '<button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>';
         echo '</div>';
