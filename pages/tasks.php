@@ -22,7 +22,37 @@
         </div>
     </form>
 
-    
+    <?php
+// Conectar a tu base de datos aquí
+require_once 'controllerDataBase.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    // Obtener la consulta de búsqueda del formulario
+    $query = $_POST["query"];
+
+    // Realizar la búsqueda en la base de datos y obtener los resultados
+    $results = searchTasksInDatabase($query);
+
+    // Mostrar los resultados de la búsqueda
+    foreach ($results as $task) {
+        echo '<div class="row mt-5 align-items-center">';
+        echo '<div class="col">';
+        echo '<div class="card text-center border border-black">';
+        echo '<div class="card-header text-dark">';
+        echo '<h5>' . $task['name'] . ' - ' . $task['due_date'] . '</h5>';
+        echo '</div>';
+        echo '<div class="card-body">';
+        echo '<div class="card-text">';
+        echo 'Categoría: ' . $task['category_id']; // Ajusta según la columna real en tu base de datos
+        echo '</div>';
+        echo '<button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+    }
+}
+?>
 </div>
     
 </body>
