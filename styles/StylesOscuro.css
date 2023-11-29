@@ -1,20 +1,29 @@
-body{
-    background-color: #444444;
-}
-
-header{
-    background-color: #D97706;
-}
-
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  background-color: #444444;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #d97706;
 }
 
 footer {
-    margin-top: auto;
-    background-color: #D97706;
-    padding: 10px 0;
-    text-align: center;
+  margin-top: auto;
+  background-color: #d97706;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.btn-outline-primary {
+  background-color: #1c1c1c;
+  color: #ffffff;
+  border: 1px solid #191919;
+}
+
+.btn-outline-primary:hover {
+  background-color: #191919;
+  color: #ffffff;
+  border: 1px solid #191919;
 }
