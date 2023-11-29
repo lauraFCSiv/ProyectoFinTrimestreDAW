@@ -103,8 +103,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     // Obtener la consulta de búsqueda del formulario
     $query = $_POST["query"];
 
-    // Realizar la búsqueda en la base de datos y obtener los resultados
-    $results = searchTasksInDatabase($query);
+    // Obtener el criterio de ordenación seleccionado
+    $sortCriteria = isset($_POST["sort"]) ? $_POST["sort"] : "name"; // Predeterminado: ordenar por nombre
+
+    // Realizar la búsqueda en la base de datos y obtener los resultados ordenados
+    $results = searchTasksInDatabase($query, $sortCriteria);
 
     // Mostrar los resultados de la búsqueda
     foreach ($results as $task) {
@@ -125,6 +128,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
         echo '</div>';
     }
 }
+
+// Formulario para el filtro de ordenación
+echo '<form method="post" action="">';
+echo '<div class="input-group input-group-sm mb-3">';
+echo '<select class="custom-select" name="sort">';
+echo '<option value="category_name">Order by category</option>';
+echo '<option value="due_date">Order by date</option>';
+echo '<option value="user_id">Order by user</option>';
+echo '</select>';
+echo '<div class="input-group-append">';
+echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
+echo '</div>';
+echo '</div>';
+echo '</form>';
 ?>
         </div>
     <?php
