@@ -54,7 +54,7 @@
                         <div class="card-text">
                             Categoría:
                         </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
+                        <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
 
                 </div>
@@ -69,7 +69,7 @@
                         <div class="card-text">
                             Categoría
                         </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
+                        <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                         <div class="card-text">
                             Categoría
                         </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
+                        <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark">Detalles</button>
                     </div>
                 </div>
             </div>
