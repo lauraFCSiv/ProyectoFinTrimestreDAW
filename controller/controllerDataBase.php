@@ -9,7 +9,7 @@
  * @version 1.0.
  * @author Pablo A.
  * @return mixed
- * 
+ * Funcion de inicio de sesion de un usuario.
  */
 function login($user, $password){
 
