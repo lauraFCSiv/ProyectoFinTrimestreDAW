@@ -28,6 +28,16 @@ footer {
   border: 1px solid #c36b05;
 }
 
+@media screen and (max-width: 991px) {
+  .offcanvas-header{
+    background-color: #d97706;
+  }
+  
+  .offcanvas-body{
+    background-color: #fff7ed;
+  }
+}
+
 /* //*Ventana: Tasks.php  */
 
 /* Cabezera de las cartas  */
