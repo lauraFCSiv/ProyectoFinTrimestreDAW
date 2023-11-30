@@ -57,7 +57,6 @@
                         <!-- <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal"
                             data-bs-target="#exampleModal1">Detalles</button> -->
                     </div>
-
                 </div>
             </div>
             <!-- //*Popup de la carta (Modal) -->
@@ -74,7 +73,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <!-- <button type="button" class="btn btn-primary">Agregar tarea</button> -->
+                            <button type="button" class="btn btn-primary">Agregar tarea</button>
                         </div>
                     </div>
                 </div>
