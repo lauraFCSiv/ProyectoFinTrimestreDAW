@@ -48,22 +48,22 @@
                 foreach ($result as $task){
                     echo '
                         <!-- //*Diseño carta -->
-                        <div class="col">
-                            <div class="card text-center border border-black" id="idCard1">
+                        <div class="col-3">
+                            <div class="card text-center border border-black" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
-                                    <h5>Título de ejemplo</h5>
+                                    <h5>'.$task['name'].'</h5>
+                                    <h6>'.$task['category_name'].'</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="card-text">
-                                        <p>Categoría:</p>
-                                        <p>Fecha</p>
+                                        <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
-                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal1">Detalles</button>
+                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">Detalles</button>
                                 </div>
                             </div>
                         </div>
                         <!-- //*Popup de la carta (Modal) -->
-                            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -71,7 +71,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            Todo el contenido de la tarea
+                                            '.$task['description'].'
                                         </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
