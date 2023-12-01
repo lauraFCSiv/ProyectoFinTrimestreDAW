@@ -20,9 +20,9 @@
             <div class="col-auto text-center">
                 <h2 class="mb-4">Registro</h2>
                 <form class="input-group d-flex flex-column align-items-center" method="POST">
-                    <input class="form-control rounded w-50 m-2" name="usersignup" type="text" placeholder="Usuario">
-                    <input class="form-control rounded w-50 m-2" name="emailsignup" type="email" placeholder="Correo Electronico">
-                    <input class="form-control rounded w-50 m-2" name="passwordsignup" type="password" placeholder="Contraseña">
+                    <input class="form-control rounded w-50 m-2" name="usersignup" type="text" placeholder="Usuario" maxlength="20">
+                    <input class="form-control rounded w-50 m-2" name="emailsignup" type="email" placeholder="Correo Electronico" maxlength="255">
+                    <input class="form-control rounded w-50 m-2" name="passwordsignup" type="password" placeholder="Contraseña" maxlength="18">
                     <button class="btn btn-outline-primary rounded m-2" type="submit">Crear Cuenta</button>
                 </form>
                 <?php
