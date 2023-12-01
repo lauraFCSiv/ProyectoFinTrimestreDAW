@@ -43,8 +43,10 @@
             <?php
                 include('../controller/controllerDataBase.php');
 
+                // Obtener todas las tareas
                 $result = getAllTasks();
 
+                // Imprimir carta por cada tarea
                 foreach ($result as $task){
                     echo '
                         <!-- //*Diseño carta -->
