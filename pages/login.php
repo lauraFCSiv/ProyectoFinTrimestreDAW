@@ -28,7 +28,7 @@
                     // Verificar si se ha enviado una peticion.
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userlogin']) && isset($_POST['passwordlogin'])){
 
-                        // Obtener usuario o error
+                        // Obtener usuario o error.
                         $result = login($_POST['userlogin'], $_POST['passwordlogin']);
 
                         if (is_string($result)){

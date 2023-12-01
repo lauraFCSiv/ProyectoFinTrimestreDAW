@@ -71,9 +71,14 @@ function register($user, $email, $password){
             // Cerrar conexion una vez utilizada.
             closeConnectionDB($conn);
             // Mensaje error
+            $error = "";
             if (mysqli_num_rows($result1) >= 1){
-            }else if (mysqli_num_rows($result2) >= 1){
+                $error = "Nombre de usuario ya utilizado.<br>";
+            } 
+            if (mysqli_num_rows($result2) >= 1){
+                $error = $error."Correo electronico ya utilizado.";
             }
+            return $error;
         }
 }
 

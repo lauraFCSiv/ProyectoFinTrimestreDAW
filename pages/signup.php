@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../styles/StylesClaro.css">
 </head>
+
 <body class="d-flex flex-column min-vh-100">
     <?php
-        include("../includes/header.php");
+    include("../includes/header.php");
     ?>
     <main class="mt-5">
         <div class="w-100 p-4 pb-4 justify-content-center align-items-center">
@@ -20,16 +22,33 @@
                 <form class="input-group d-flex flex-column align-items-center" method="POST">
                     <input class="form-control rounded w-50 m-2" name="usersignup" type="text" placeholder="Usuario">
                     <input class="form-control rounded w-50 m-2" name="emailsignup" type="email" placeholder="Correo Electronico">
-                    <input class="form-control rounded w-50 m-2" name="passwordsignup" type="password" placeholder="Contraseña">      
-                    <button class="btn btn-outline-primary rounded m-2" type="submit">Crear Cuenta</button>             
+                    <input class="form-control rounded w-50 m-2" name="passwordsignup" type="password" placeholder="Contraseña">
+                    <button class="btn btn-outline-primary rounded m-2" type="submit">Crear Cuenta</button>
                 </form>
                 <?php
+                    include('../controller/controllerDataBase.php');
+
+                    // Verificar si se ha enviado una peticion.
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['usersignup']) && isset($_POST['emailsignup']) && isset($_POST['passwordsignup'])) {
+
+                        // Obtener registro de usuario o error.
+                        $result = register($_POST['usersignup'], $_POST['emailsignup'], $_POST['passwordsignup']);
+
+                        if (is_string($result)) {
+                            // En caso de obtener error, mostrar el error debajo del formulario.
+                            echo $result;
+                        } else {
+                            // En caso de obtener el registro correcto, reedirigir a la pantalla de inicio de sesion.
+                             echo "<script>window.location.href='login.php'</script>";
+                        }
+                    }      
                 ?>
             </div>
         </div>
     </main>
     <?php
-        include("../includes/footer.php");
+    include("../includes/footer.php");
     ?>
 </body>
+
 </html>
