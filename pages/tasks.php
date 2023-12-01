@@ -49,7 +49,7 @@
                     echo '
                         <!-- //*Diseño carta -->
                         <div class="col-3">
-                            <div class="card text-center border border-black" id="idCard'.$task['id'].'">
+                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
                                     <h6>'.$task['category_name'].'</h6>
@@ -67,7 +67,7 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Título de la tarea</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -88,7 +88,7 @@
     include("../includes/footer.php");
     ?>
     </div>
-    <script src="../js/tasks.js"></script>
+    <!-- <script src="../js/tasks.js"></script> -->
 </body>
 
 </html>
