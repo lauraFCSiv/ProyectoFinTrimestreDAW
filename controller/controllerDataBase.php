@@ -82,4 +82,24 @@ function register($user, $email, $password){
         }
 }
 
+/**
+ * @version 1.0.
+ * @author Pablo A.
+ * @return mysqli_result $result
+ * Obtener todas las tareas alamcenadas en base de datos. Hace una subconsulta con la tabla categorias para obtener a parte el nombre de la categoria asignada.
+ */
+function getAllTasks(){
+   
+    // Abrir conexion con la base de datos.
+    $conn = openConnectionDB();
+
+    // Consulta que obtiene todas tareas de base de datos
+    $query = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
+    $result = $conn->query($query);
+
+    // Devolver resultado
+    return $result;
+
+}
+
 ?>
