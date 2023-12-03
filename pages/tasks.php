@@ -17,17 +17,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../styles/StylesClaro.css">
-    <title>Tareas completadas</title>
+    <title>TurronTasker: Todas las tareas</title>
 </head>
 
 <body>
-
-    <!-- //! Cosas extra a tener en cuenta:
-    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <?php
     include("../includes/header.php");
     ?>
-
+    <!-- //! Cosas extra a tener en cuenta:
+    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <div class="container">
         <!-- //*buscador  -->
         <div class="row mt-5">
@@ -40,7 +38,6 @@
                 </form>
             </div>
         </div>
-
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <div class="col">
@@ -57,6 +54,7 @@
                         <!-- <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal"
                             data-bs-target="#exampleModal1">Detalles</button> -->
                     </div>
+
                 </div>
             </div>
             <!-- //*Popup de la carta (Modal) -->
@@ -73,7 +71,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary">Agregar tarea</button>
+                            <!-- <button type="button" class="btn btn-primary">Agregar tarea</button> -->
                         </div>
                     </div>
                 </div>
@@ -121,7 +119,7 @@
     include("../includes/footer.php");
     ?>
     </div>
-    <script src="../js/tasks.js"></script>
+    <!-- <script src="../js/tasks.js"></script> -->
 </body>
 
 </html>
