@@ -84,7 +84,7 @@
                 foreach ($result as $task){
                     echo '
                         <!-- //*Diseño carta -->
-                        <div class="col-3">
+                        <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
@@ -94,7 +94,6 @@
                                     <div class="card-text">
                                         <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
-                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">Detalles</button>
                                 </div>
                             </div>
                         </div>
