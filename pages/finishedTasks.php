@@ -31,10 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     $query = $_POST["query"];
 
     // Realizar la búsqueda en la base de datos y obtener los resultados
-    $results = searchTasksInDatabase($query);
+    $result = searchTasksInDatabase($query);
 
     // Mostrar los resultados de la búsqueda
-    foreach ($results as $task) {
+    foreach ($result as $task) {
         echo '<div class="row mt-5 align-items-center">';
         echo '<div class="col">';
         echo '<div class="card text-center border border-black">';

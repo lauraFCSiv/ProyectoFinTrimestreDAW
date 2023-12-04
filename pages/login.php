@@ -18,8 +18,8 @@
             <div class="col-auto text-center">
                 <h2 class="mb-4">Iniciar Sesion</h2>
                 <form class="input-group d-flex flex-column align-items-center" method="POST">
-                    <input class="form-control rounded w-50 m-2" name="userlogin" type="text" placeholder="Usuario">
-                    <input class="form-control rounded w-50 m-2" name="passwordlogin" type="password" placeholder="Contraseña">      
+                    <input class="form-control rounded w-50 m-2" name="userlogin" type="text" placeholder="Usuario" maxlength="20">
+                    <input class="form-control rounded w-50 m-2" name="passwordlogin" type="password" placeholder="Contraseña" maxlength="18">      
                     <button class="btn btn-outline-primary rounded m-2" type="submit">Iniciar Sesion</button>             
                 </form>
                 <?php
@@ -28,7 +28,7 @@
                     // Verificar si se ha enviado una peticion.
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['userlogin']) && isset($_POST['passwordlogin'])){
 
-                        // Obtener usuario o error
+                        // Obtener usuario o error.
                         $result = login($_POST['userlogin'], $_POST['passwordlogin']);
 
                         if (is_string($result)){

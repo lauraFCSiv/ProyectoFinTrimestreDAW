@@ -20,19 +20,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="../styles/StylesClaro.css">
-    <title>Tareas completadas</title>
+    <title>TurronTasker: Todas las tareas</title>
 </head>
 
 <body>
-
-    <!-- //! Cosas extra a tener en cuenta: dialog
-    //*Buscar cómo hacer funcional un pop up por cada pestaña
-    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
-    <!-- //*usar CSS para colores específicos -->
     <?php
-        include("../includes/header.php");
+    include("../includes/header.php");
     ?>
-
+    <!-- //! Cosas extra a tener en cuenta:
+    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <div class="container">
         <!-- //*buscador  -->
         <div class="row mt-5">
@@ -47,105 +43,84 @@
     </form>
             </div>
         </div>
-
-            <!-- //*Cartas con tareas  -->
+        <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
-            <div class="col">
-                <div class="card text-center border border-black">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo + fecha</h5>
-                    </div>
+            <?php
+                include('../controller/controllerDataBase.php');
+                // Formulario para el filtro de ordenación
+                echo '<form method="post" action="">';
+                echo '<div class="input-group input-group-sm mb-3">';
+                echo '<select class="custom-select" name="sort">';
+                echo '<option value="category_name">Order by category</option>';
+                echo '<option value="due_date">Order by date</option>';
+                echo '<option value="user_name">Order by user</option>';
+                echo '</select>';
+                echo '<div class="input-group-append">';
+                echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
+                echo '</div>';
+                echo '</div>';
+                echo '</form>';
+
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                    // Obtener la consulta de búsqueda del formulario
+                    $query = $_POST["query"];
+                
+                    // Realizar la búsqueda en la base de datos y obtener los resultados
+                    $result = searchTasksInDatabase($query);
+                
                     
-                    <div class="card-body">
-                        <div class="card-text">
-                            Categoría:
+                    }else{
+                        // Obtener todas las tareas
+                        $result = getAllTasks();
+                        
+                    }
+                
+                
+               
+
+                // Imprimir carta por cada tarea
+                foreach ($result as $task){
+                    echo '
+                        <!-- //*Diseño carta -->
+                        <div class="col-3">
+                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                                <div class="card-header text-dark">
+                                    <h5>'.$task['name'].'</h5>
+                                    <h6>'.$task['category_name'].'</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>Fecha Limite: '.$task['due_date'].'</p>
+                                    </div>
+                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">Detalles</button>
+                                </div>
+                            </div>
                         </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
-                    </div>
-
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center border border-black">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo + fecha</h5>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card-text">
-                            Categoría
-                        </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center border border-black">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo  + fecha</h5>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card-text">
-                            Categoría
-                        </div>
-                        <button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- //*Primera fila de cartas acaba aquí  -->
-        <?php
-// Conectar a tu base de datos aquí
-require_once 'controllerDataBase.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
-    // Obtener la consulta de búsqueda del formulario
-    $query = $_POST["query"];
-
-    // Obtener el criterio de ordenación seleccionado
-    $sortCriteria = isset($_POST["sort"]) ? $_POST["sort"] : "name"; // Predeterminado: ordenar por nombre
-
-    // Realizar la búsqueda en la base de datos y obtener los resultados ordenados
-    $results = searchTasksInDatabase($query, $sortCriteria);
-
-    // Mostrar los resultados de la búsqueda
-    foreach ($results as $task) {
-        echo '<div class="row mt-5 align-items-center">';
-        echo '<div class="col">';
-        echo '<div class="card text-center border border-black">';
-        echo '<div class="card-header text-dark">';
-        echo '<h5>' . $task['name'] . ' - ' . $task['due_date'] . '</h5>';
-        echo '</div>';
-        echo '<div class="card-body">';
-        echo '<div class="card-text">';
-        echo 'Categoría: ' . $task['category_id']; // Ajusta según la columna real en tu base de datos
-        echo '</div>';
-        echo '<button class="buttonCards btn btn-primary mt-2 btn-outline-dark">Detalles</button>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-    }
-}
-
-// Formulario para el filtro de ordenación
-echo '<form method="post" action="">';
-echo '<div class="input-group input-group-sm mb-3">';
-echo '<select class="custom-select" name="sort">';
-echo '<option value="category_name">Order by category</option>';
-echo '<option value="due_date">Order by date</option>';
-echo '<option value="user_name">Order by user</option>';
-echo '</select>';
-echo '<div class="input-group-append">';
-echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
-echo '</div>';
-echo '</div>';
-echo '</form>';
-?>
-        </div>
+                        <!-- //*Popup de la carta (Modal) -->
+                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            '.$task['description'].'
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary">Agregar tarea</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+            ?>
+        </div>        
+    </div>
     <?php
     include("../includes/footer.php");
     ?>
     </div>
+    <!-- <script src="../js/tasks.js"></script> -->
 </body>
