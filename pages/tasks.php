@@ -24,8 +24,6 @@
     <?php
     include("../includes/header.php");
     ?>
-    <!-- //! Cosas extra a tener en cuenta:
-    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <div class="container">
         <!-- //*buscador  -->
         <div class="row mt-5">
@@ -40,79 +38,49 @@
         </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
-            <div class="col">
-                <div class="card text-center border border-black" id="idCard1">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo</h5>
-                    </div>
+            <?php
+                include('../controller/controllerDataBase.php');
 
-                    <div class="card-body">
-                        <div class="card-text">
-                            <p>Categoría:</p>
-                            <p>Fecha</p>
-                        </div>
-                        <!-- <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal1">Detalles</button> -->
-                    </div>
+                // Obtener todas las tareas
+                $result = getAllTasks();
 
-                </div>
-            </div>
-            <!-- //*Popup de la carta (Modal) -->
-            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Título de la tarea</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            Todo el contenido de la tarea
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <!-- <button type="button" class="btn btn-primary">Agregar tarea</button> -->
+                // Imprimir carta por cada tarea
+                foreach ($result as $task){
+                    echo '
+                        <!-- //*Diseño carta -->              
+                        <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
+                        <!-- //*Nuevo contenedor con id para que funcione como botón (js) -->
+                        <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                            <div class="card-header text-dark">
+                                <h5>'.$task['name'].'</h5>
+                                <h6>'.$task['category_name'].'</h6>
+                            </div>
+                            <div class="card-body">
+                                <p>Fecha Limite: '.$task['due_date'].'</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- //*Fin del Popup de la carta -->
-                    <!-- //*Primera fila de cartas acaba aquí  -->
-            <!-- 2 cartas más solo para ver como queda, esto se borra luego  -->
-            <div class="col">
-                <div class="card text-center border border-black" id="idCard2">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo</h5>
-                    </div>
 
-                    <div class="card-body">
-                        <div class="card-text">
-                            <p>Categoría:</p>
-                            <p>Fecha</p>
-                        </div>
-                        <!-- <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal1">Detalles</button> -->
-                    </div>
-
-                </div>
-            </div>
-            <div class="col">
-                <div class="card text-center border border-black" id="idCard3">
-                    <div class="card-header text-dark">
-                        <h5>Título de ejemplo</h5>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="card-text">
-                            <p>Categoría:</p>
-                            <p>Fecha</p>
-                        </div>
-                        <!-- <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal1">Detalles</button> -->
-                    </div>
-
-                </div>
-            </div>
+                        <!-- //*Popup de la carta (Modal) -->
+                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            '.$task['description'].'
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary">Agregar tarea</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+            ?>
         </div>        
     </div>
     <?php
