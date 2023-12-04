@@ -88,15 +88,26 @@ function register($user, $email, $password){
 /**
  * @version 1.0.
  * @author Pablo A.
- * Obtener todas las tareas alamcenadas en base de datos. Hace una subconsulta con la tabla categorias para obtener a parte el nombre de la categoria asignada.
+ * Obtener todas las tareas alamcenadas en base de datos, y teniendo en cuenta de si se quieren filtrar segun su estado (No asignadas, asignadas y finalizadas).
+ * Hace una subconsulta con la tabla categorias para obtener a parte el nombre de la categoria asignada.
  */
-function getAllTasks(){
+function getAllTasks($type){
    
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
 
-    // Consulta que obtiene todas tareas de base de datos
+    // Consulta que obtiene todas tareas de base de datos, y en funcion de si queremos buscar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas).
     $query = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
+    switch ($type){
+        case 'all':
+            break;
+        case 'finished':
+            $query .= " WHERE `tasks`.`status` = 'Finalizada'";
+            break;
+        default:
+            break;
+    }
+
     $result = $conn->query($query);
 
     // Devolver resultado
@@ -113,9 +124,13 @@ function searchTasksInDatabase($query, $type) {
     $query = $conn->real_escape_string($query);
 
     // Realizar la consulta SQL para buscar tareas por nombre, y en funcion de si queremos buscar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas)
+    $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `tasks`.`name` LIKE '%$query%'";
     switch ($type){
         case 'all':
-            $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `tasks`.`name` LIKE '%$query%'";
+            // Si no se selecciona ninguna opción de categoria, la consulta permanece igual
+            break;
+        case 'finished':
+            $sql .= " AND `tasks`.`status` = 'Finalizada'";
             break;
         default:
             break;
@@ -147,9 +162,12 @@ function searchByFilter($query, $type) {
     $query = $conn->real_escape_string($query);
 
         // Construir la consulta SQL para buscar tareas por nombre y ordenar según el criterio seleccionado, y teniendo en cuenta 
+        $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name', `users`.`username` as 'username' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` INNER JOIN `users` ON `tasks`.`user_id` = `users`.`id`";
         switch ($type){
             case 'all':
-                $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
+                break;
+            case 'finished':
+                $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
                 break;
             default:
                 break;
@@ -157,15 +175,14 @@ function searchByFilter($query, $type) {
 
     switch ($query) {
         case 'category_name':
-            $sql .= " ORDER BY `category_name`";
+            $sql .= " ORDER BY `category_name` ASC, `tasks`.`name` ASC";
             break;
         case 'due_date':
-            $sql .= " ORDER BY `tasks`.`due_date`";
+            $sql .= " ORDER BY `tasks`.`due_date` ASC, `tasks`.`name` ASC";
             break;
         case 'user_name':
-            $sql .= " ORDER BY `tasks`. `user_id`";
+            $sql .= " ORDER BY `username` ASC, `tasks`.`name` ASC";
             break;
-        // Puedes agregar más casos según sea necesario
         default:
             // Si no se selecciona ninguna opción de orden, la consulta permanece igual
             break;
