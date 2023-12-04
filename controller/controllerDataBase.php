@@ -17,7 +17,7 @@ function login($user, $password){
     $conn = openConnectionDB();
 
     // Consulta donde intenta buscar un usuario con ese nombre de usuario
-    $query = "SELECT * FROM `users` WHERE `username` = '$user' and `password` = '".password_verify($password, PASSWORD_DEFAULT)."'";
+    $query = "SELECT * FROM `users` WHERE `username` = '$user'";
     $result = $conn->query($query);
 
     // Cerrar conexion una vez utilizada.
@@ -26,12 +26,18 @@ function login($user, $password){
     if (mysqli_num_rows($result) == 1){
         // En caso de encontrar un usuario, buscar si el usuario esta activo o no.
         foreach ($result as $user){
-            if ($user['active'] == 1){
-                // Si el usuario esta activo, devolver usuario.
-                return $result;
+            // Verificar si la contrasena introducida coincide con la contrasena en el servidor (esta esta hasheada).
+            if (password_verify($password, $user['password'])){
+                if ($user['active'] == 1){
+                    // Si el usuario esta activo, devolver usuario.
+                    return $result;
+                }else{
+                    // Si el usuario no esta activo, devolver mensaje de error.
+                    return 'Usuario deshabilitado';
+                }
             }else{
-                // Si el usuario no esta activo, devolver mensaje de error.
-                return 'Usuario deshabilitado';
+                // En caso de que la contrasena no sea asi, devolver mensaje de error.
+                return 'Usuario/Contraseña no valido/s';   
             }
         }
     }else{
