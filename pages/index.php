@@ -14,7 +14,53 @@
         include("../includes/header.php");
     ?>
     <main class="mt-5">
-        
+         <!-- //*Cartas con tareas  -->
+         <div class="row mt-5 align-items-center">
+            <?php
+                include('../controller/controllerDataBase.php');
+
+                // Obtener todas las tareas
+                $result = getAllTasks();
+
+                // Imprimir carta por cada tarea
+                foreach ($result as $task){
+                    echo '
+                        <!-- //*Diseño carta -->
+                        <div class="col-3">
+                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                                <div class="card-header text-dark">
+                                    <h5>'.$task['name'].'</h5>
+                                    <h6>'.$task['category_name'].'</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>Fecha Limite: '.$task['due_date'].'</p>
+                                    </div>
+                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">Detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //*Popup de la carta (Modal) -->
+                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            '.$task['description'].'
+                                        </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="button" class="btn btn-primary">Agregar tarea</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                    }
+            ?>
+        </div> 
     </main>
     <?php
         include("../includes/footer.php");
