@@ -27,8 +27,6 @@
     <?php
     include("../includes/header.php");
     ?>
-    <!-- //! Cosas extra a tener en cuenta:
-    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <div class="container">
         <!-- //*buscador  -->
         <div class="row mt-5">
@@ -99,7 +97,7 @@
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
-                                    
+                                    <h6>'.$task['category_name'].'</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="card-text">
@@ -109,6 +107,8 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+
                         <!-- //*Popup de la carta (Modal) -->
                             <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -135,5 +135,5 @@
     include("../includes/footer.php");
     ?>
     </div>
-    <!-- <script src="../js/tasks.js"></script> -->
+    <script src="../js/tasks.js"></script>
 </body>

@@ -16,8 +16,8 @@ function login($user, $password){
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
 
-    // Consulta donde intenta buscar un usuario con ese nombre de usuario y esa contrasena.
-    $query = "SELECT * FROM `users` WHERE `username` = '$user' AND `password` = '$password'";
+    // Consulta donde intenta buscar un usuario con ese nombre de usuario
+    $query = "SELECT * FROM `users` WHERE `username` = '$user'";
     $result = $conn->query($query);
 
     // Cerrar conexion una vez utilizada.
@@ -74,7 +74,8 @@ function register($user, $email, $password){
 
         // Abrir conexion con la base de datos.
         $conn = openConnectionDB();
-
+        // Hashear la contraseña
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
         // Query 1: Busca un usuario con ese nombre de usuario para verificar si ya esta creado
         $query1 = "SELECT * FROM `users` WHERE `username` = '$user'";
         $result1 = $conn->query($query1);
@@ -85,7 +86,7 @@ function register($user, $email, $password){
 
         if (mysqli_num_rows($result1) == 0 && mysqli_num_rows($result2) == 0){
             // En caso de que no se haya encontrado ningun usuario con ese nombre de usuario y ese correo, insertar en base de datos el nuevo usuario
-            $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$password', 1)";
+            $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
             $result3 = $conn->query($query3);
             // Cerrar conexion una vez utilizada.
             closeConnectionDB($conn);
@@ -109,7 +110,6 @@ function register($user, $email, $password){
 /**
  * @version 1.0.
  * @author Pablo A.
- * @return mysqli_result $result
  * Obtener todas las tareas alamcenadas en base de datos. Hace una subconsulta con la tabla categorias para obtener a parte el nombre de la categoria asignada.
  */
 function getAllTasks(){
