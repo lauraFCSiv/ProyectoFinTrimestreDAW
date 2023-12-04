@@ -72,6 +72,7 @@
                     }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
 
                         $query = $_POST["sort"];
+                        $result = searchByFilter($query);
 
 
                     }
