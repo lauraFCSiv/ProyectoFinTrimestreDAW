@@ -39,6 +39,30 @@ function login($user, $password){
         return 'Usuario/Contraseña no valido/s';
     }
 }
+function searchTasksInDatabase($query) {
+   
+    
+    $conn = openConnectionDB();
+    // Escapar caracteres especiales en la consulta
+    $query = $conn->real_escape_string($query);
+
+    // Realizar la consulta SQL para buscar tareas por nombre
+    $sql = "SELECT * FROM tasks WHERE name LIKE '%$query%'";
+    $result = $conn->query($sql);
+
+    // Almacenar los resultados en un array
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+
+    return $tasks;
+}
 
 /**
  * @version 1.0.
@@ -101,5 +125,48 @@ function getAllTasks(){
     return $result;
 
 }
+function searchByFilter($query) {
+    // Abrir conexión con la base de datos
+    $conn = openConnectionDB();
+
+    // Escapar caracteres especiales en la consulta
+    $query = $conn->real_escape_string($query);
+
+    // Construir la consulta SQL para buscar tareas por nombre y ordenar según el criterio seleccionado
+    $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
+
+    switch ($query) {
+        case 'category_name':
+            $sql .= " ORDER BY `categories`.`name`";
+            break;
+        case 'due_date':
+            $sql .= " ORDER BY `tasks`.`due_date`";
+            break;
+        case 'user_name':
+            $sql .= " ORDER BY `tasks`. `user_id`";
+            break;
+        // Puedes agregar más casos según sea necesario
+        default:
+            // Si no se selecciona ninguna opción de orden, la consulta permanece igual
+            break;
+    }
+
+    // Ejecutar la consulta
+    $result = $conn->query($sql);
+
+    // Almacenar los resultados en un array
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+
+    return $tasks;
+}
+
 
 ?>

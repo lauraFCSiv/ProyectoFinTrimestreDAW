@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,21 +33,63 @@
         <!-- //*buscador  -->
         <div class="row mt-5">
             <div class="col">
-                <form method="POST">
-                    <div class="form-group">
-                        <input type="search" class="form-control border border-dark-subtle" id="" name=""
-                            placeholder="Buscar tareas">
-                    </div>
-                </form>
+            <form method="post" action="">
+        <div class="input-group mb-3">
+            <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de tarea">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit" name="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
             </div>
         </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
                 include('../controller/controllerDataBase.php');
+                // Formulario para el filtro de ordenación
+                echo '<form method="post" action="">';
+                echo '<div class="input-group input-group-sm mb-3">';
+                echo '<select class="custom-select" name="sort">';
+                echo '<option value="category_name">Order by category</option>';
+                echo '<option value="due_date">Order by date</option>';
+                echo '<option value="user_name">Order by user</option>';
+                echo '</select>';
+                echo '<div class="input-group-append">';
+                echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
+                echo '</div>';
+                echo '</div>';
+                echo '</form>';
 
-                // Obtener todas las tareas
-                $result = getAllTasks();
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                    // Obtener la consulta de búsqueda del formulario
+                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
+
+                        $query = $_POST["search"];
+                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                        $result = searchTasksInDatabase($query);
+
+                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
+
+                        $query = $_POST["sort"];
+                        $result = searchByFilter($query);
+
+
+                    }
+                   
+                
+                    
+                   
+                
+                    
+                    }else{
+                        // Obtener todas las tareas
+                        $result = getAllTasks();
+                        
+                    }
+                
+                
+               
 
                 // Imprimir carta por cada tarea
                 foreach ($result as $task){
@@ -54,7 +99,7 @@
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
-                                    <h6>'.$task['category_name'].'</h6>
+                                    
                                 </div>
                                 <div class="card-body">
                                     <div class="card-text">
@@ -92,5 +137,3 @@
     </div>
     <!-- <script src="../js/tasks.js"></script> -->
 </body>
-
-</html>
