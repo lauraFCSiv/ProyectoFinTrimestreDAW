@@ -34,48 +34,51 @@
             <form method="post" action="">
         <div class="input-group mb-3">
             <form method="post">
-                <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de tarea">
+                <input type="search" class="form-control rounded" name="search" placeholder="Buscar por nombre de tarea">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit" name="submit">Buscar</button>
+                    <button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>
                 </div>
             </form>
         </div>
     </form>
             </div>
         </div>
+        <div>
+            <?php
+                // Formulario para el filtro de ordenación
+                echo '<form method="post" action="">';
+                    echo '<div class="input-group input-group-sm mb-3">';
+                        echo '<select class="custom-select rounded" name="sort">';
+                            echo '<option value="category_name">Ordenar por categoria</option>';
+                            echo '<option value="due_date">Ordenar por fecha</option>';
+                            echo '<option value="user_name">Ordenar por usuario</option>';
+                        echo '</select>';
+                        echo '<div class="input-group-append">';
+                            echo '<button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</form>';
+            ?>
+        </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
                 include('../controller/controllerDataBase.php');
 
-                // Formulario para el filtro de ordenación
-                echo '<form method="post" action="">';
-                echo '<div class="input-group input-group-sm mb-3">';
-                echo '<select class="custom-select" name="sort">';
-                echo '<option value="category_name">Order by category</option>';
-                echo '<option value="due_date">Order by date</option>';
-                echo '<option value="user_name">Order by user</option>';
-                echo '</select>';
-                echo '<div class="input-group-append">';
-                echo '<button class="btn btn-primary" type="submit" name="submit">Apply</button>';
-                echo '</div>';
-                echo '</div>';
-                echo '</form>';
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
-                        if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
-                        $query = $_POST["search"];
-                            // Realizar la búsqueda en la base de datos y obtener los resultados
-                            $result = searchTasksInDatabase($query);
-                        }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
-                            $query = $_POST["sort"];
-                            $result = searchByFilter($query);
-                        }
-                    }else{
-                        // Obtener todas las tareas
-                        $result = getAllTasks();            
+                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
+                    $query = $_POST["search"];
+                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                        $result = searchTasksInDatabase($query, "all");
+                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
+                        $query = $_POST["sort"];                            
+                        $result = searchByFilter($query, "all");
                     }
+                }else{
+                    // Obtener todas las tareas
+                    $result = getAllTasks();            
+                }
             
                 // Imprimir carta por cada tarea
                 foreach ($result as $task){
