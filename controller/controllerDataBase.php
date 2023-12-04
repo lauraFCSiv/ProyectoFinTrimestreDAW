@@ -41,13 +41,13 @@ function login($user, $password){
 }
 function searchTasksInDatabase($query) {
    
-    
     $conn = openConnectionDB();
+
     // Escapar caracteres especiales en la consulta
     $query = $conn->real_escape_string($query);
 
     // Realizar la consulta SQL para buscar tareas por nombre
-    $sql = "SELECT * FROM tasks WHERE name LIKE '%$query%'";
+    $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `tasks`.`name` LIKE '%$query%'";
     $result = $conn->query($sql);
 
     // Almacenar los resultados en un array
@@ -126,6 +126,7 @@ function getAllTasks(){
 
 }
 function searchByFilter($query) {
+
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
@@ -137,7 +138,7 @@ function searchByFilter($query) {
 
     switch ($query) {
         case 'category_name':
-            $sql .= " ORDER BY `categories`.`name`";
+            $sql .= " ORDER BY `category_name`";
             break;
         case 'due_date':
             $sql .= " ORDER BY `tasks`.`due_date`";
