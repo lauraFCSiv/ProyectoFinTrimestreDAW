@@ -77,7 +77,7 @@
                     }
                 }else{
                     // Obtener todas las tareas
-                    $result = getAllTasks();            
+                    $result = getAllTasks("all");            
                 }
             
                 // Imprimir carta por cada tarea
