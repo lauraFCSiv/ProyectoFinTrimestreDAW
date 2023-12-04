@@ -41,11 +41,8 @@ function login($user, $password){
 }
 function searchTasksInDatabase($query) {
    
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Connection fail: " . $conn->connect_error);
-    }
-
+    
+    $conn = openConnectionDB();
     // Escapar caracteres especiales en la consulta
     $query = $conn->real_escape_string($query);
 

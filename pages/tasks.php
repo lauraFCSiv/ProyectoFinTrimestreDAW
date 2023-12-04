@@ -63,10 +63,22 @@
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
-                    $query = $_POST["query"];
+                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
+
+                        $query = $_POST["search"];
+                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                        $result = searchTasksInDatabase($query);
+
+                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
+
+                        $query = $_POST["sort"];
+
+
+                    }
+                   
                 
-                    // Realizar la búsqueda en la base de datos y obtener los resultados
-                    $result = searchTasksInDatabase($query);
+                    
+                   
                 
                     
                     }else{
@@ -86,7 +98,7 @@
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
-                                    <h6>'.$task['category_name'].'</h6>
+                                    
                                 </div>
                                 <div class="card-body">
                                     <div class="card-text">
