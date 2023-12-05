@@ -60,6 +60,12 @@
                 echo '</form>';
             ?>
         </div>
+        
+        <div class="progress mt-5" style="height: 30px;">
+            <?php
+            echo'<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>';
+            ?>
+        </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
