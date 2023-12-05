@@ -167,30 +167,21 @@ function searchByFilter($query) {
 
     return $tasks;
 }
-function getMyTasks($userid) {
+function eliminarTarea($taskId) {
     $conn = openConnectionDB();
-    $sql = "SELECT * FROM tasks WHERE userid = '" . $userid . "'";
-    $result = $conn->query($sql);
 
-    $myTasks = array();
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $myTasks[] = array(
-                'task_id' => $row['id'],
-                'name' => $row['name'],
-                'description' => $row['description'],
-                'due_date' => $row['due_date'],
-                'userid' => $row['userid'],
-                'category_id' => $row['category_id']
-                // Agrega más campos según sea necesario
-            );
-        }
+    $sql = "DELETE FROM tasks WHERE id = '" . $taskId . "'";
+
+    if ($conn->query($sql) === TRUE) {
+        // Éxito al eliminar la tarea
+    } else {
+        // Manejar el error si es necesario
+        echo "Error al eliminar la tarea: " . $conn->error;
     }
 
+    // Cerrar la conexión a la base de datos
     closeConnectionDB($conn);
-
-    return $myTasks;
 }
 
 
