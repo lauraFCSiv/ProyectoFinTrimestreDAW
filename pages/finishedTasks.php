@@ -63,13 +63,13 @@
         
         <div class="progress mt-5" style="height: 30px;">
             <?php
-            echo'<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>';
+            include('../controller/controllerDataBase.php');
+            echo'<div class="progress-bar" role="progressbar" style="width: '.round(((CountTasks("finished")*100)/CountTasks("all")),$precision = 2).'%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">'.round(((CountTasks("finished")*100)/CountTasks("all")),$precision = 2).'%</div>';
             ?>
         </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
-                include('../controller/controllerDataBase.php');
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
