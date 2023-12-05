@@ -142,7 +142,7 @@ function searchTasksInDatabase($query, $type) {
             $sql .= " AND `tasks`.`status` = 'Finalizada'";
             break;
         case 'assigned':
-            $query .= " WHERE `tasks`.`status` = 'En Progreso'";
+            $sql .= " AND `tasks`.`status` = 'En Progreso'";
             break;
         default:
             break;
@@ -182,7 +182,7 @@ function searchByFilter($query, $type) {
                 $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
                 break;
             case 'assigned':
-                $query .= " WHERE `tasks`.`status` = 'En Progreso'";
+                $sql .= " WHERE `tasks`.`status` = 'En Progreso'";
                 break;
             default:
                 break;

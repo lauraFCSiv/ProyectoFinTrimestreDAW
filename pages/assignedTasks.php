@@ -45,6 +45,8 @@
         </div>
         <div>
             <?php
+                include('../controller/controllerDataBase.php');
+
                 // Formulario para el filtro de ordenación
                 echo '<form method="post" action="">';
                     echo '<div class="input-group input-group-sm mb-3">';
@@ -63,7 +65,6 @@
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
-                include('../controller/controllerDataBase.php');
 
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
