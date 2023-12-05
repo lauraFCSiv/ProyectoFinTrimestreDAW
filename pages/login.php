@@ -30,17 +30,28 @@
 
                         // Obtener usuario o error.
                         $result = login($_POST['userlogin'], $_POST['passwordlogin']);
-
+                        
                         if (is_string($result)){
                             // En caso de obtener error, mostrar el error debajo del formulario.
                             echo $result;
                         }else{
+                            $loginSuccess = false;
                             // En caso de obtener el usuario, almacenar la sesion del usuario y cambiar a la pagina principal.
                             foreach ($result as $user){
+                                //Comprobamos si la contraseña escrita coincide en la base de datos (hasheada)
+                                if(password_verify($_POST['passwordlogin'], $user['password'])){
+                                $loginSuccess = true;   
                                 $_SESSION['userid'] = $user['id'];
                                 $_SESSION['username'] = $user['username'];
+                                }
                             }
-                            echo "<script>window.location.href='index.php'</script>";
+                            //Si las credenciales son correctas, redirigimos al index
+                            if($loginSuccess){
+                                echo "<script>window.location.href='index.php'</script>";
+                            }else{
+                                //De lo contrario, mostrará un echo remarcando que la contraseña es incorrecta
+                                echo "Contraseña incorrecta";
+                            }
                         }
                     }
                 ?>

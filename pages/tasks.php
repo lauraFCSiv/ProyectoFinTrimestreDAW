@@ -1,3 +1,6 @@
+<?php
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,33 +27,64 @@
     <?php
     include("../includes/header.php");
     ?>
-    <!-- //! Cosas extra a tener en cuenta:
-    //* Que cada card responda ante el cursor si pasa por encima (hover) cambiando el tamaño -->
     <div class="container">
         <!-- //*buscador  -->
         <div class="row mt-5">
             <div class="col">
-                <form method="POST">
-                    <div class="form-group">
-                        <input type="search" class="form-control border border-dark-subtle" id="" name=""
-                            placeholder="Buscar tareas">
-                    </div>
-                </form>
+            <form method="post" action="">
+        <div class="input-group mb-3">
+            <form method="post">
+                <input type="search" class="form-control rounded" name="search" placeholder="Buscar por nombre de tarea">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </form>
             </div>
+        </div>
+        <div>
+            <?php
+                // Formulario para el filtro de ordenación
+                echo '<form method="post" action="">';
+                    echo '<div class="input-group input-group-sm mb-3">';
+                        echo '<select class="custom-select rounded" name="sort">';
+                            echo '<option value="category_name">Ordenar por categoria</option>';
+                            echo '<option value="due_date">Ordenar por fecha</option>';
+                            echo '<option value="user_name">Ordenar por usuario</option>';
+                        echo '</select>';
+                        echo '<div class="input-group-append">';
+                            echo '<button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>';
+                        echo '</div>';
+                    echo '</div>';
+                echo '</form>';
+            ?>
         </div>
         <!-- //*Cartas con tareas  -->
         <div class="row mt-5 align-items-center">
             <?php
                 include('../controller/controllerDataBase.php');
 
-                // Obtener todas las tareas
-                $result = getAllTasks();
-
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                    // Obtener la consulta de búsqueda del formulario
+                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
+                    $query = $_POST["search"];
+                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                        $result = searchTasksInDatabase($query, "all");
+                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
+                        $query = $_POST["sort"];                            
+                        $result = searchByFilter($query, "all");
+                    }
+                }else{
+                    // Obtener todas las tareas
+                    $result = getAllTasks("all");            
+                }
+            
                 // Imprimir carta por cada tarea
                 foreach ($result as $task){
                     echo '
                         <!-- //*Diseño carta -->
-                        <div class="col-3">
+                        <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header text-dark">
                                     <h5>'.$task['name'].'</h5>
@@ -60,10 +94,10 @@
                                     <div class="card-text">
                                         <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
-                                    <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">Detalles</button>
                                 </div>
                             </div>
                         </div>
+
                         <!-- //*Popup de la carta (Modal) -->
                             <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -90,7 +124,5 @@
     include("../includes/footer.php");
     ?>
     </div>
-    <!-- <script src="../js/tasks.js"></script> -->
+    <script src="../js/tasks.js"></script>
 </body>
-
-</html>
