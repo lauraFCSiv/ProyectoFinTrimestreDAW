@@ -63,6 +63,7 @@ CREATE TABLE `tasks` (
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,
+  `user_creator` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -154,7 +155,8 @@ ALTER TABLE `chat`
 --
 ALTER TABLE `tasks`
   ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
+  ADD CONSTRAINT `tasks_ibfk_2` FOREIGN KEY (`user_creator`) REFERENCES `users` (`id`) ON DELETE SET NULL,
+  ADD CONSTRAINT `tasks_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
