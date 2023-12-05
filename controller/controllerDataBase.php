@@ -141,6 +141,9 @@ function searchTasksInDatabase($query, $type) {
         case 'finished':
             $sql .= " AND `tasks`.`status` = 'Finalizada'";
             break;
+        case 'assigned':
+            $query .= " WHERE `tasks`.`status` = 'En Progreso'";
+            break;
         default:
             break;
     }
@@ -177,6 +180,9 @@ function searchByFilter($query, $type) {
                 break;
             case 'finished':
                 $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
+                break;
+            case 'assigned':
+                $query .= " WHERE `tasks`.`status` = 'En Progreso'";
                 break;
             default:
                 break;
@@ -215,5 +221,32 @@ function searchByFilter($query, $type) {
     return $tasks;
 }
 
+function CountTasks($type){
+   
+    // Abrir conexion con la base de datos.
+    $conn = openConnectionDB();
+
+    // Consulta que obtiene todas tareas de base de datos, y en funcion de si queremos contar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas).
+    $query = "SELECT COUNT(*) as 'count' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
+    switch ($type){
+        case 'all':
+            break;
+        case 'finished':
+            $query .= " WHERE `tasks`.`status` = 'Finalizada'";
+            break;
+        default:
+            break;
+    }
+
+    // Ejecutar la consulta.
+    $result = mysqli_query($conn, $query);
+
+    // Obtener el resultado como un array asociativo.
+    $row = mysqli_fetch_assoc($result);
+
+    // Devolver el número de tareas.
+    return $row['count'];
+
+}
 
 ?>
