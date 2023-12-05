@@ -1,26 +1,14 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var carta1 = document.getElementById('idCard1');
-    var modal1 = new bootstrap.Modal(document.getElementById('exampleModal1'));
-
-    carta1.addEventListener('click', function () {
-        modal1.show();
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    var carta2 = document.getElementById('idCard2');
-    var modal2 = new bootstrap.Modal(document.getElementById('exampleModal1'));
-
-    carta2.addEventListener('click', function () {
-        modal2.show();
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    var carta3 = document.getElementById('idCard3');
-    var modal3 = new bootstrap.Modal(document.getElementById('exampleModal1'));
-
-    carta3.addEventListener('click', function () {
-        modal3.show();
+    // Obtenemos el modal de x carta
+    var cards = document.querySelectorAll('.card');
+    cards.forEach(function (card) {
+        // Agregamos un evento click a cada carta
+        card.addEventListener('click', function () {
+            // Obtenemos el ID del modal 
+            var modalId = card.getAttribute('data-bs-target');
+            // Abrimos modal
+            var modal = new bootstrap.Modal(document.querySelector(modalId));
+            modal.show();
+        });
     });
 });
