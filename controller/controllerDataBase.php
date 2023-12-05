@@ -212,5 +212,19 @@ function searchByFilter($query, $type) {
     return $tasks;
 }
 
+function getNextTasksDate(){
+    // Abrir conexion con la base de datos.
+    $conn = openConnectionDB();
+
+    // Consulta donde intenta buscar un usuario con ese nombre de usuario
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `end_date` IS NULL ORDER BY `due_date` ASC LIMIT 0,3;";
+    $result = $conn->query($query);
+
+    // Cerrar la conexión a la base de datos
+    $conn->close();
+    
+    return $result;
+}
+
 
 ?>
