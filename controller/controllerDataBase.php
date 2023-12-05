@@ -110,6 +110,9 @@ function getAllTasks($type){
         case 'finished':
             $query .= " WHERE `tasks`.`status` = 'Finalizada'";
             break;
+        case 'assigned':
+            $query .= " WHERE `tasks`.`status` = 'En Progreso'";
+            break;
         default:
             break;
     }
