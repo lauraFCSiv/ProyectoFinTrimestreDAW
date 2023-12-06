@@ -41,7 +41,7 @@ session_start();
                                             <a class="dropdown-item" type="button" href="profile.php">
                                             Configuración                                                   
                                         </a>
-                                                        </button>
+                                            </button>
                                             </li>
                                                 <li>
                                                     <form method="POST">
