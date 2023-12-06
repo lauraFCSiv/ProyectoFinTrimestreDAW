@@ -64,7 +64,6 @@
         <div class="row mt-5 align-items-center">
             <?php
                 include('../controller/controllerDataBase.php');
-
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
                     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
@@ -110,12 +109,44 @@
                                             '.$task['description'].'
                                         </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary">Agregar tarea</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
+                                        //Comprobamos si el usuario está con sesión activa para poder agregar dicha tarea:
+                                        if (isset($_SESSION['userid'])) {
+                                        //Comprobamos si la tarea ya está asignada a un usuario
+                                        $taskAssignedAlready = isTaskAssigned($task['id']);
+                                            if($taskAssignedAlready){
+                                                //en caso de estar asignada, el botón estará deshabilitado
+                                                echo '<button type="button" class="btn btn-primary disabled">Asignar tarea</button>';
+                                            }else{
+                                                //de lo contrario, eres libre de asignarte la tarea
+                                                echo '<form method="post" action="">
+                                                        <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                                        <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
+                                                    </form>';
+                                            }
+                                        }else{
+                                        //En caso de no tener sesión activa, el botón estará deshabilitado
+                                            echo '<button type="button" class="btn btn-primary disabled">Agregar tarea</button>';
+                                        }
+                                        echo '
                                     </div>
                                 </div>
                             </div>
                         </div>';
+                    }
+
+                    //Solicitar asignar tarea:
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_task'])) {
+                        // Verificamos si el usuario ha iniciado sesión
+                        if (isset($_SESSION['userid'])) {
+                            // Obtenemos la tarea ID del formulario
+                            $taskId = $_POST['task_id'];
+                    
+                            // Llamamos a la función para asignar la tarea
+                            assignTaskToUser($_SESSION['userid'], $taskId);
+                            //Actualizamos la página para que una vez asignado, no pueda volver a asignarse
+                            echo "<script>window.location.href='tasks.php'</script>";
+                        }
                     }
             ?>
         </div>        
