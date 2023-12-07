@@ -263,4 +263,26 @@ function CountTasks($type){
 
 }
 
+    //Comprueba si un usuario ya tiene la tarea signada
+
+    function isTaskAssigned($taskId){
+        $conn = openConnectionDB();
+
+        $query = "SELECT * FROM `tasks` WHERE `id` = '$taskId' AND `user_id` IS NOT NULL";
+        $result = $conn->query($query);
+
+        closeConnectionDB($conn);
+        return mysqli_num_rows($result) > 0;
+    }
+
+    //Asignamos tarea a un usuario
+
+    function assignTaskToUser($userId, $taskId) {
+        $conn = openConnectionDB();
+
+        $query = "UPDATE tasks SET user_id = $userId WHERE id = $taskId";
+        $conn->query($query);
+    
+        closeConnectionDB($conn);
+    }
 ?>

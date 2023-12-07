@@ -36,11 +36,18 @@ session_start();
                                 $_SESSION['username'] . '
                                             </button>
                                             <ul class="dropdown-menu">
+                                            <li>
+                                            <button class="dropdown-item" type="submit" name="profile">
+                                            <a class="dropdown-item" type="button" href="profile.php">
+                                            Configuración                                                   
+                                        </a>
+                                            </button>
+                                            </li>
                                                 <li>
                                                     <form method="POST">
                                                         <button class="dropdown-item" type="submit" name="logout">
                                                             Cerrar Sesion
-                                                        </button>
+                                                        </button>                           
                                                     </form>';
                             if (isset($_POST['logout'])) {
                                 // Destruir sesion del usuario.
@@ -49,7 +56,7 @@ session_start();
                                 // Reedirigir a Login.
                                 echo "<script>window.location.href='login.php'</script>";
                             };
-                            echo '</li>
+                            echo '</li>                            
                                             </ul>
                                         </li>
                                     ';
