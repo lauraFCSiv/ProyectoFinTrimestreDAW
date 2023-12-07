@@ -285,4 +285,15 @@ function CountTasks($type){
     
         closeConnectionDB($conn);
     }
+
+    //Eliminamos usuario
+
+    function deleteAccount($userId) {
+        $conn = openConnectionDB();
+          // Se actualiza la columna 'active' a 0 para el usuario
+        $query = "UPDATE users SET active = 0 WHERE id = $userId";
+        $conn->query($query);
+
+        closeConnectionDB($conn);
+      }
 ?>
