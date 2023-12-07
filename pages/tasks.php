@@ -116,7 +116,7 @@
                                         $taskAssignedAlready = isTaskAssigned($task['id']);
                                             if($taskAssignedAlready){
                                                 //en caso de estar asignada, el botón estará deshabilitado
-                                                echo '<button type="button" class="btn btn-primary disabled">Asignar tarea</button>';
+                                                echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
                                             }else{
                                                 //de lo contrario, eres libre de asignarte la tarea
                                                 echo '<form method="post" action="">

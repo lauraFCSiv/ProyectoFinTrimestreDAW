@@ -64,7 +64,13 @@
         <div class="progress mt-5" style="height: 30px;">
             <?php
             include('../controller/controllerDataBase.php');
-            echo'<div class="progress-bar" role="progressbar" style="width: '.round(((CountTasks("finished")*100)/CountTasks("all")),$precision = 2).'%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">'.round(((CountTasks("finished")*100)/CountTasks("all")),$precision = 2).'%</div>';
+            if (countTasks("all") == 0){
+                // En caso de no existir ninguna tarea en base de datos, se considerara el 100%.
+                echo'<div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">100%</div>';
+            }else{
+                // En caso de que si, se considerara hacer la division las tareas finalizadas entre las tareas totales.
+                echo'<div class="progress-bar" role="progressbar" style="width: '.round(((countTasks("finished")*100)/countTasks("all")),$precision = 2).'%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">'.round(((countTasks("finished")*100)/countTasks("all")),$precision = 2).'%</div>';
+            }
             ?>
         </div>
         <!-- //*Cartas con tareas  -->
