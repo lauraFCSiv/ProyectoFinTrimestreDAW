@@ -37,16 +37,16 @@ session_start();
                                             </button>
                                             <ul class="dropdown-menu">
                                             <li>
-                                            <button class="dropdown-item" type="submit" name="profile">
-                                            <a class="dropdown-item" type="button" href="profile.php">
-                                            Configuración                                                   
-                                        </a>
-                                            </button>
+                                                <form method="POST">
+                                                    <button class="dropdown-item" type="submit" name="profilesettings">
+                                                        Configuración
+                                                    </button>
+                                                </form>
                                             </li>
                                                 <li>
                                                     <form method="POST">
                                                         <button class="dropdown-item" type="submit" name="logout">
-                                                            Cerrar Sesion
+                                                            Cerrar Sesión
                                                         </button>                           
                                                     </form>';
                             if (isset($_POST['logout'])) {
@@ -55,6 +55,9 @@ session_start();
                                 session_destroy();
                                 // Reedirigir a Login.
                                 echo "<script>window.location.href='login.php'</script>";
+                            }
+                            if(isset($_POST['profilesettings'])){
+                                echo "<script>window.location.href='profile.php'</script>";
                             };
                             echo '</li>                            
                                             </ul>
