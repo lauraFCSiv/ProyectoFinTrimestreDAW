@@ -24,17 +24,65 @@
     <!-- header  -->
     <?php
     include("../includes/header.php");
+    include('../controller/controllerDataBase.php');
     ?>
+    <!-- Contenedor principal  -->
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <!-- Enlace para abrir la ventana modal -->
+                <a href="#" class="btn btn-danger text-center" data-bs-toggle="modal"
+                    data-bs-target="#deleteAccountModal">
+                    Eliminar cuenta
+                </a>
 
-    <?php
-    
-    ?>
+                <!-- Modal para confirmar la eliminación de cuenta -->
+                <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteAccountModalLabel">Eliminar cuenta</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="profile.php">
+                                <div class="modal-body text-center">
+                                    ¿Estás seguro de que deseas borrar esta cuenta?
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- Botón de "Sí, eliminar cuenta" -->
+                                    <button type="submit" name="deleteAccount" class="btn btn-danger">Sí, eliminar
+                                        cuenta</button>
+                                    <!-- Botón para cerrar el modal -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
+                <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteAccount'])) {
+                    // Verificar si el usuario ha iniciado sesión
+                    if (isset($_SESSION['userid'])) {
+                        //Una vez con la sesión activa, se decide borrar la cuenta y se cierra sesión
+                        deleteAccount($_SESSION['userid']);
+                        session_unset();
+                        session_destroy();
+                        // Redirigir a Login.
+                        echo "<script>window.location.href='login.php'</script>";
+                        
+                    }
+                }
+                ?>
+            </div>
+        </div>
+    </div>
     <!-- footer  -->
     <?php
     include("../includes/footer.php");
     ?>
-
 </body>
 
 </html>
