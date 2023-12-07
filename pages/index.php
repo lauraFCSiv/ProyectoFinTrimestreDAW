@@ -18,7 +18,7 @@
          <div class="d-flex flex-column mt-5 align-items-center">
             <?php
                 include('../controller/controllerDataBase.php');
-
+                
                 // Obtener todas las tareas
                 $result = getNextTasksDate();
 
