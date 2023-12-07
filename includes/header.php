@@ -37,11 +37,9 @@ session_start();
                                             </button>
                                             <ul class="dropdown-menu">
                                             <li>
-                                            <button class="dropdown-item" type="submit" name="profile">
-                                            <a class="dropdown-item" type="button" href="profile.php">
-                                            Configuración                                                   
-                                        </a>
-                                            </button>
+                                            <a class="dropdown-item" href="profile.php">
+                                                Configuración
+                                            </a>
                                             </li>
                                                 <li>
                                                     <form method="POST">
