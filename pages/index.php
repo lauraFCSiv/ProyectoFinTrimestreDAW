@@ -4,10 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TurronTasker: Iniciar Sesion</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+       <!-- LIBRERÍAS  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles/StylesClaro.css">
+        <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
+    
 </head>
 <body class="d-flex flex-column min-vh-100">
     <?php
@@ -92,6 +106,7 @@
     <?php
         include("../includes/footer.php");
     ?>
+        <script src="../js/profile.js"></script>
+        <script src="../js/tasks.js"></script>
 </body>
-    <script src="../js/tasks.js"></script>
 </html>
