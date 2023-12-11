@@ -71,7 +71,7 @@
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
                     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
-                    $query = $_POST["search"];
+                        $query = $_POST["search"];
                         // Realizar la búsqueda en la base de datos y obtener los resultados
                         $result = searchTasksInDatabase($query, "assigned");
                     }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
@@ -112,14 +112,28 @@
                                         <div class="modal-body">
                                             '.$task['description'].'
                                         </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <div class="modal-footer">';
+                                    if ($task['user_id'] == $_SESSION['userid']){
+                                        echo '<form method="post" action="">
+                                            <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                            <button type="submit" name="finish_task" class="btn btn-primary">Finalizar tarea</button>
+                                        </form>';
+                                    }
+                                        echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>';
+                        } 
                         
-                        }               
+                                        //Solicitar asignar tarea:
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_task'])) {
+                        if (isset($_SESSION['userid'])) {
+                            $taskId = $_POST['task_id'];
+                            finishTask($taskId);
+                            echo "<script>window.location.href='assignedTasks.php'</script>";
+                        }
+                    }
             ?>
         </div>        
     </div>
