@@ -45,13 +45,9 @@ footer {
   background-color: #d97706;
 }
 
-/* Botón de las cartas  */
-.buttonCardsTasks{
-  background-color: #d97706;
-}
-
 /* Hover para las cartas  */
-.container .card:hover {
+.card-container .card:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease-in-out;
+  cursor: pointer;
 }

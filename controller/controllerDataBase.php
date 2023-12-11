@@ -303,4 +303,38 @@ function countTasks($type){
     
         closeConnectionDB($conn);
     }
+
+    //Eliminamos usuario
+
+    function deleteAccount($userId) {
+        $conn = openConnectionDB();
+          // Se actualiza la columna 'active' a 0 para el usuario
+        $query = "UPDATE users SET active = 0 WHERE id = $userId";
+        $conn->query($query);
+
+        closeConnectionDB($conn);
+      }
+
+      function changeProfile($userId, $newDates) {
+        $conn = openConnectionDB();
+    
+        // Asegúrate de escapar los datos para prevenir inyección SQL
+        $nuevosDatosEscapados = array_map('mysqli_real_escape_string', $conn, $newDates);
+    
+        // Construye la consulta para actualizar los datos del usuario
+        $sql = "UPDATE users SET 
+                nombre = '{$nuevosDatosEscapados['nombre']}', 
+                apellido = '{$nuevosDatosEscapados['apellido']}', 
+                email = '{$nuevosDatosEscapados['email']}' 
+                WHERE id = '$userId'";
+    
+        if ($conn->query($sql) === TRUE) {
+            echo "Datos del usuario actualizados con éxito";
+        } else {
+            echo "Error al actualizar los datos del usuario: " . $conn->error;
+        }
+    
+        // Cerrar la conexión a la base de datos
+        closeConnectionDB($conn);
+    }
 ?>
