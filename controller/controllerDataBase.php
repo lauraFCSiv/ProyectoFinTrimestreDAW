@@ -214,6 +214,31 @@ function searchByFilter($query, $type) {
     // Devolver tareas
     return $tasks;
 }
+function eliminarTarea($taskId) {
+    $conn = openConnectionDB();
+
+    // Utilizamos una consulta preparada para evitar la inyección de SQL
+    $sql = "DELETE FROM tasks WHERE id = ?";
+    
+    // Preparamos la consulta
+    $stmt = $conn->prepare($sql);
+    
+    // Vinculamos el parámetro
+    $stmt->bind_param("i", $taskId);
+    
+    // Ejecutamos la consulta
+    if ($stmt->execute()) {
+        // Éxito al eliminar la tarea
+       
+    } else {
+        // Manejar el error si es necesario
+        echo "Error al eliminar la tarea: " . $stmt->error;
+    }
+
+    // Cerramos la consulta y la conexión a la base de datos
+    $stmt->close();
+    closeConnectionDB($conn);
+}
 
 function getNextTasksDate(){
     // Abrir conexion con la base de datos.
@@ -289,4 +314,54 @@ function countTasks($type){
 
         closeConnectionDB($conn);
       }
+
+      function changeProfile($userId, $newDates) {
+        $conn = openConnectionDB();
+    
+        // Asegúrate de escapar los datos para prevenir inyección SQL
+        $nuevosDatosEscapados = array_map('mysqli_real_escape_string', $conn, $newDates);
+    
+        // Construye la consulta para actualizar los datos del usuario
+        $sql = "UPDATE users SET 
+                nombre = '{$nuevosDatosEscapados['nombre']}', 
+                apellido = '{$nuevosDatosEscapados['apellido']}', 
+                email = '{$nuevosDatosEscapados['email']}' 
+                WHERE id = '$userId'";
+    
+        if ($conn->query($sql) === TRUE) {
+            echo "Datos del usuario actualizados con éxito";
+        } else {
+            echo "Error al actualizar los datos del usuario: " . $conn->error;
+        }
+    
+        // Cerrar la conexión a la base de datos
+        closeConnectionDB($conn);
+    }
+    function getTaskCreatorId($taskId) {
+        $conn = openConnectionDB();
+    
+        // Utilizamos una consulta preparada para evitar la inyección de SQL
+        $sql = "SELECT user_id FROM tasks WHERE id = ?";
+        
+        // Preparamos la consulta
+        $stmt = $conn->prepare($sql);
+        
+        // Vinculamos el parámetro
+        $stmt->bind_param("i", $taskId);
+        
+        // Ejecutamos la consulta
+        $stmt->execute();
+    
+        // Vinculamos el resultado a una variable
+        $stmt->bind_result($taskCreatorId);
+    
+        // Obtenemos el resultado
+        $stmt->fetch();
+    
+        // Cerramos la consulta y la conexión a la base de datos
+        $stmt->close();
+        closeConnectionDB($conn);
+    
+        return $taskCreatorId;
+    }
 ?>

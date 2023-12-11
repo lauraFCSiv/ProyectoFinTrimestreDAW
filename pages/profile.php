@@ -1,3 +1,5 @@
+<!-- En el archivo profile.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +35,7 @@
     ?>
     <!-- Contenedor principal  -->
     <div class="container">
-    <div class="row">
+        <div class="row">
             <div class="col mt-5">
                 <!-- Botones para cambiar los colores de la página -->
                 <p class="profileText">Cambiar tema:</p>
@@ -43,7 +45,25 @@
             </div>
         </div>
 
-        <div class="row">          
+        <div class="row">
+            <div class="col mt-5">
+                <!-- Formulario para actualizar datos del usuario -->
+                <form method="POST" action="profile.php">
+                    <label for="nuevo_nombre">Nuevo Nombre:</label>
+                    <input type="text" name="nuevo_nombre" required>
+
+                    <label for="nuevo_apellido">Nuevo Apellido:</label>
+                    <input type="text" name="nuevo_apellido" required>
+
+                    <label for="nuevo_email">Nuevo Email:</label>
+                    <input type="email" name="nuevo_email" required>
+
+                    <button type="submit" name="actualizarDatos">Actualizar Datos</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col mt-5">
                 <p class="profileText">Eliminar cuenta:</p>
                 <!-- Enlace para abrir la ventana modal -->
@@ -79,16 +99,30 @@
                 </div>
 
                 <?php
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizarDatos'])) {
+                    // Verificar si el usuario ha iniciado sesión
+                    if (isset($_SESSION['userid'])) {
+                        // Obtener los nuevos datos del formulario (asegúrate de validar y sanitizar estos datos)
+                        $newDates = array(
+                            'nombre' => $_POST['nuevo_nombre'],
+                            'apellido' => $_POST['nuevo_apellido'],
+                            'email' => $_POST['nuevo_email']
+                        );
+
+                        // Llamar a la función para cambiar los datos del usuario
+                        changeProfile($_SESSION['userid'], $newDates);
+                    }
+                }
+
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteAccount'])) {
                     // Verificar si el usuario ha iniciado sesión
                     if (isset($_SESSION['userid'])) {
-                        //Una vez con la sesión activa, se decide borrar la cuenta y se cierra sesión
+                        // Una vez con la sesión activa, se decide borrar la cuenta y se cierra sesión
                         deleteAccount($_SESSION['userid']);
                         session_unset();
                         session_destroy();
                         // Redirigir a Login.
                         echo "<script>window.location.href='login.php'</script>";
-                        
                     }
                 }
                 ?>

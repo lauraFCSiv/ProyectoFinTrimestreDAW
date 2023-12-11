@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +17,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Temática color claro por defecto  -->
-    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
     <!-- Temáticas adicionales deshabilitadas inicialmente -->
     <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
     <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
@@ -35,32 +36,33 @@
         <!-- //*buscador  -->
         <div class="row mt-5">
             <div class="col">
-            <form method="post" action="">
-        <div class="input-group mb-3">
-            <form method="post">
-                <input type="search" class="form-control rounded" name="search" placeholder="Buscar por nombre de tarea">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>
-                </div>
-            </form>
-        </div>
-    </form>
+                <form method="post" action="">
+                    <div class="input-group mb-3">
+                        <form method="post">
+                            <input type="search" class="form-control rounded" name="search"
+                                placeholder="Buscar por nombre de tarea">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>
+                            </div>
+                        </form>
+                    </div>
+                </form>
             </div>
         </div>
         <div>
             <?php
                 // Formulario para el filtro de ordenación
                 echo '<form method="post" action="">';
-                    echo '<div class="input-group input-group-sm mb-3">';
-                        echo '<select class="custom-select rounded" name="sort">';
-                            echo '<option value="category_name">Ordenar por categoria</option>';
-                            echo '<option value="due_date">Ordenar por fecha</option>';
-                            echo '<option value="user_name">Ordenar por usuario</option>';
-                        echo '</select>';
-                        echo '<div class="input-group-append">';
-                            echo '<button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>';
-                        echo '</div>';
-                    echo '</div>';
+                echo '<div class="input-group input-group-sm mb-3">';
+                echo '<select class="custom-select rounded" name="sort">';
+                echo '<option value="category_name">Ordenar por categoria</option>';
+                echo '<option value="due_date">Ordenar por fecha</option>';
+                echo '<option value="user_name">Ordenar por usuario</option>';
+                echo '</select>';
+                echo '<div class="input-group-append">';
+                echo '<button class="btn btn-outline-primary rounded mx-1" type="submit" name="submit">Buscar</button>';
+                echo '</div>';
+                echo '</div>';
                 echo '</form>';
             ?>
         </div>
@@ -70,19 +72,17 @@
                 include('../controller/controllerDataBase.php');
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
-                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
-                    $query = $_POST["search"];
-                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])) {
+                        $query = $_POST["search"];
                         $result = searchTasksInDatabase($query, "all");
-                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
-                        $query = $_POST["sort"];                            
+                    } else if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])) {
+                        $query = $_POST["sort"];
                         $result = searchByFilter($query, "all");
                     }
-                }else{
-                    // Obtener todas las tareas
-                    $result = getAllTasks("all");            
+                } else {
+                    $result = getAllTasks("all");
                 }
-            
+
                 // Imprimir carta por cada tarea
                 foreach ($result as $task){
                     echo '
@@ -97,61 +97,82 @@
                                     <div class="card-text">
                                         <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
+                                    <!-- Formulario simplificado para eliminar la tarea -->
+                                    <form method="post" action="">
+                                        <input type="hidden" name="deleteTask" value="'.$task['id'].'">
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
 
                         <!-- //*Popup de la carta (Modal) -->
-                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            '.$task['description'].'
-                                        </div>
+                        <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        '.$task['description'].'
+                                    </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
-                                        //Comprobamos si el usuario está con sesión activa para poder agregar dicha tarea:
                                         if (isset($_SESSION['userid'])) {
-                                        //Comprobamos si la tarea ya está asignada a un usuario
-                                        $taskAssignedAlready = isTaskAssigned($task['id']);
-                                            if($taskAssignedAlready){
-                                                //en caso de estar asignada, el botón estará deshabilitado
+                                            $taskAssignedAlready = isTaskAssigned($task['id']);
+                                            if ($taskAssignedAlready) {
                                                 echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
-                                            }else{
-                                                //de lo contrario, eres libre de asignarte la tarea
+                                            } else {
                                                 echo '<form method="post" action="">
                                                         <input type="hidden" name="task_id" value="' . $task['id'] . '">
                                                         <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
                                                     </form>';
                                             }
-                                        }else{
-                                        //En caso de no tener sesión activa, el botón estará deshabilitado
+                                        } else {
                                             echo '<button type="button" class="btn btn-primary disabled">Agregar tarea</button>';
                                         }
+
+                                        
                                         echo '
                                     </div>
                                 </div>
                             </div>
                         </div>';
-                    }
+                }
 
-                    //Solicitar asignar tarea:
-                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_task'])) {
-                        // Verificamos si el usuario ha iniciado sesión
-                        if (isset($_SESSION['userid'])) {
-                            // Obtenemos la tarea ID del formulario
-                            $taskId = $_POST['task_id'];
-                    
-                            // Llamamos a la función para asignar la tarea
-                            assignTaskToUser($_SESSION['userid'], $taskId);
-                            //Actualizamos la página para que una vez asignado, no pueda volver a asignarse
-                            echo "<script>window.location.href='tasks.php'</script>";
-                        }
+                //Solicitar asignar tarea:
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_task'])) {
+                    if (isset($_SESSION['userid'])) {
+                        $taskId = $_POST['task_id'];
+                        assignTaskToUser($_SESSION['userid'], $taskId);
+                        echo "<script>window.location.href='tasks.php'</script>";
                     }
+                }
+                
+                // Eliminar tarea:
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
+                    $taskIdToDelete = $_POST["deleteTask"];
+                    eliminarTarea($taskIdToDelete);
+                    // Después de eliminar, redirige o actualiza la página según sea necesario
+                    echo "<script>window.location.href='tasks.php'</script>";
+                }
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
+                    $taskIdToDelete = $_POST["deleteTask"];
+                
+                    // Obtener el creador de la tarea
+                    $taskCreatorId = getTaskCreatorId($taskIdToDelete);
+                
+                    if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
+                        eliminarTarea($taskIdToDelete);
+                        // Después de eliminar, redirige o actualiza la página según sea necesario
+                        header("Location: tasks.php");
+                        exit();
+                    } else {
+                        // El usuario actual no tiene permiso para eliminar esta tarea
+                        $deleteError = "No tienes permiso para eliminar esta tarea.";
+                    }
+                }
             ?>
         </div>        
     </div>
@@ -161,5 +182,5 @@
     </div>
     <script src="../js/tasks.js"></script>
     <script src="../js/profile.js"></script>
-
 </body>
+</html>
