@@ -153,12 +153,6 @@
                 // Eliminar tarea:
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
                     $taskIdToDelete = $_POST["deleteTask"];
-                    eliminarTarea($taskIdToDelete);
-                    // Después de eliminar, redirige o actualiza la página según sea necesario
-                    echo "<script>window.location.href='tasks.php'</script>";
-                }
-                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
-                    $taskIdToDelete = $_POST["deleteTask"];
                 
                     // Obtener el creador de la tarea
                     $taskCreatorId = getTaskCreatorId($taskIdToDelete);
@@ -166,8 +160,7 @@
                     if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
                         eliminarTarea($taskIdToDelete);
                         // Después de eliminar, redirige o actualiza la página según sea necesario
-                        header("Location: tasks.php");
-                        exit();
+                    echo "<script>window.location.href='tasks.php'</script>";
                     } else {
                         // El usuario actual no tiene permiso para eliminar esta tarea
                         $deleteError = "No tienes permiso para eliminar esta tarea.";
