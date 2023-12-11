@@ -73,12 +73,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
             </form>
         </div>
         <div class="row mt-5 align-items-center">
-            <?php foreach ($result as $task): ?>
-                <div class="col-3 card-container">
-                    <div class="card text-center border border-black m-2" id="idCard<?= $task['id'] ?>">
-                        <div class="card-header text-dark">
-                            <h5><?= $task['name'] ?></h5>
-                            <h6><?= $task['category_name'] ?></h6>
+            <?php
+                include('../controller/controllerDataBase.php');
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+                    // Obtener la consulta de búsqueda del formulario
+                    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
+                    $query = $_POST["search"];
+                        // Realizar la búsqueda en la base de datos y obtener los resultados
+                        $result = searchTasksInDatabase($query, "all");
+                    }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
+                        $query = $_POST["sort"];                            
+                        $result = searchByFilter($query, "all");
+                    }
+                }else{
+                    // Obtener todas las tareas
+                    $result = getAllTasks("all");            
+                }
+            
+                // Imprimir carta por cada tarea
+                foreach ($result as $task){
+                    echo '
+                        <!-- //*Diseño carta -->
+                        <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
+                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                                <div class="card-header text-dark">
+                                    <h5>'.$task['name'].'</h5>
+                                    <h6>'.$task['category_name'].'</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>Fecha Limite: '.$task['due_date'].'</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <form method="post" action="">
                             <button type="button" class="btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $task['id'] ?>">Detalles</button>
@@ -116,16 +143,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                                         <?= $task['description'] ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary">Agregar tarea</button>
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
+                                        //Comprobamos si el usuario está con sesión activa para poder agregar dicha tarea:
+                                        if (isset($_SESSION['userid'])) {
+                                        //Comprobamos si la tarea ya está asignada a un usuario
+                                        $taskAssignedAlready = isTaskAssigned($task['id']);
+                                            if($taskAssignedAlready){
+                                                //en caso de estar asignada, el botón estará deshabilitado
+                                                echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
+                                            }else{
+                                                //de lo contrario, eres libre de asignarte la tarea
+                                                echo '<form method="post" action="">
+                                                        <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                                        <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
+                                                    </form>';
+                                            }
+                                        }else{
+                                        //En caso de no tener sesión activa, el botón estará deshabilitado
+                                            echo '<button type="button" class="btn btn-primary disabled">Agregar tarea</button>';
+                                        }
+                                        echo '
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            <?php endforeach; ?>
-        </div>
+                        </div>';
+                    }
+
+                    //Solicitar asignar tarea:
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_task'])) {
+                        // Verificamos si el usuario ha iniciado sesión
+                        if (isset($_SESSION['userid'])) {
+                            // Obtenemos la tarea ID del formulario
+                            $taskId = $_POST['task_id'];
+                    
+                            // Llamamos a la función para asignar la tarea
+                            assignTaskToUser($_SESSION['userid'], $taskId);
+                            //Actualizamos la página para que una vez asignado, no pueda volver a asignarse
+                            echo "<script>window.location.href='tasks.php'</script>";
+                        }
+                    }
+            ?>
+        </div>        
+    </div>
+    <?php
+    include("../includes/footer.php");
+    ?>
     </div>
 
     <?php include("../includes/footer.php"); ?>

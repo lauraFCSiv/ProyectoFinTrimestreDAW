@@ -111,9 +111,7 @@ function getAllTasks($type){
             $query .= " WHERE `tasks`.`status` = 'Finalizada'";
             break;
         case 'assigned':
-            $query .= " WHERE `tasks`.`status` = 'En Progreso'";
-            break;
-        default:
+            $query .= " WHERE `tasks`.`status` = 'Asignada'";
             break;
     }
 
@@ -142,9 +140,7 @@ function searchTasksInDatabase($query, $type) {
             $sql .= " AND `tasks`.`status` = 'Finalizada'";
             break;
         case 'assigned':
-            $sql .= " AND `tasks`.`status` = 'En Progreso'";
-            break;
-        default:
+            $sql .= " AND `tasks`.`status` = 'Asignada'";
             break;
     }
 
@@ -174,7 +170,7 @@ function searchByFilter($query, $type) {
     $query = $conn->real_escape_string($query);
 
         // Construir la consulta SQL para buscar tareas por nombre y ordenar según el criterio seleccionado, y teniendo en cuenta 
-        $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name', `users`.`username` as 'username' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` INNER JOIN `users` ON `tasks`.`user_id` = `users`.`id`";
+        $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name', `users`.`username` as 'username' FROM `tasks` LEFT JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` LEFT JOIN `users` ON `tasks`.`user_id` = `users`.`id`";
         switch ($type){
             case 'all':
                 break;
@@ -182,9 +178,7 @@ function searchByFilter($query, $type) {
                 $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
                 break;
             case 'assigned':
-                $sql .= " WHERE `tasks`.`status` = 'En Progreso'";
-                break;
-            default:
+                $sql .= " WHERE `tasks`.`status` = 'Asignada'";
                 break;
         }
 
@@ -251,7 +245,7 @@ function getNextTasksDate(){
     return $result;
 }
 
-function CountTasks($type){
+function countTasks($type){
    
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
@@ -279,4 +273,25 @@ function CountTasks($type){
 
 }
 
+    //Comprueba si un usuario ya tiene la tarea signada
+    function isTaskAssigned($taskId){
+        $conn = openConnectionDB();
+
+        $query = "SELECT * FROM `tasks` WHERE `id` = '$taskId' AND `user_id` IS NOT NULL";
+        $result = $conn->query($query);
+
+        closeConnectionDB($conn);
+
+        return mysqli_num_rows($result) > 0;
+    }
+
+    //Asignamos tarea a un usuario
+    function assignTaskToUser($userId, $taskId) {
+        $conn = openConnectionDB();
+
+        $query = "UPDATE tasks SET user_id = $userId, status = 'Asignada' WHERE id = $taskId";
+        $conn->query($query);
+    
+        closeConnectionDB($conn);
+    }
 ?>
