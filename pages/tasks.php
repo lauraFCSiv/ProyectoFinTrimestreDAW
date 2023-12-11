@@ -82,7 +82,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                         </div>
                         <form method="post" action="">
                             <button type="button" class="btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal<?= $task['id'] ?>">Detalles</button>
-                            <button type="button" class="btn btn-danger mt-2 btn-outline-dark" onclick="confirmDelete(<?= $task['id'] ?>)">Eliminar</button>
+                            <button type="button" class="btn btn-danger mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $task['id'] ?>">Eliminar</button>
+
+                            <!-- Modal de confirmación de eliminación -->
+                            <div class="modal fade" id="confirmDeleteModal<?= $task['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ¿Estás seguro de que deseas eliminar la tarea?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <button type="submit" class="btn btn-danger" name="deleteTask" value="<?= $task['id'] ?>">Eliminar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </form>
                         <!-- Modal de la tarea -->
                         <div class="modal fade" id="exampleModal<?= $task['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -111,14 +131,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
     <?php include("../includes/footer.php"); ?>
     <script src="../js/tasks.js"></script>
 
-    <script>
-        function confirmDelete(taskId) {
-            if (confirm("¿Estás seguro de que deseas eliminar la tarea?")) {
-                document.querySelector('[name="deleteTask"]').value = taskId;
-                document.querySelector('[name="deleteTask"]').form.submit();
-            }
-        }
-    </script>
 </body>
 
 </html>
