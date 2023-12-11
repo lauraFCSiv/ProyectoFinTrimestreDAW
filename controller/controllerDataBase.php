@@ -363,4 +363,37 @@ function countTasks($type){
     
         return $taskCreatorId;
     }
+    /**
+ * Obtener las tareas asignadas al usuario actual.
+ *
+ * @param int $userid ID del usuario actual.
+ * @return array Array de tareas asignadas al usuario.
+ */
+function getMytasks($userid)
+{
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
+
+    // Escapar el ID del usuario para evitar inyecciones SQL.
+    $userid = $conn->real_escape_string($userid);
+
+    // Consulta para obtener las tareas asignadas al usuario.
+    $query = "SELECT * FROM `tasks` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
+    $result = $conn->query($query);
+
+    // Almacenar los resultados en un array.
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array.
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos.
+    $conn->close();
+
+    // Devolver tareas asignadas al usuario.
+    return $tasks;
+}
+
 ?>
