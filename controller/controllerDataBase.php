@@ -217,17 +217,26 @@ function searchByFilter($query, $type) {
 function eliminarTarea($taskId) {
     $conn = openConnectionDB();
 
-
-    $sql = "DELETE FROM tasks WHERE id = '" . $taskId . "'";
-
-    if ($conn->query($sql) === TRUE) {
+    // Utilizamos una consulta preparada para evitar la inyección de SQL
+    $sql = "DELETE FROM tasks WHERE id = ?";
+    
+    // Preparamos la consulta
+    $stmt = $conn->prepare($sql);
+    
+    // Vinculamos el parámetro
+    $stmt->bind_param("i", $taskId);
+    
+    // Ejecutamos la consulta
+    if ($stmt->execute()) {
         // Éxito al eliminar la tarea
+       
     } else {
         // Manejar el error si es necesario
-        echo "Error al eliminar la tarea: " . $conn->error;
+        echo "Error al eliminar la tarea: " . $stmt->error;
     }
 
-    // Cerrar la conexión a la base de datos
+    // Cerramos la consulta y la conexión a la base de datos
+    $stmt->close();
     closeConnectionDB($conn);
 }
 
