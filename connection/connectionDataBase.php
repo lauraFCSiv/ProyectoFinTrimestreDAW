@@ -15,7 +15,7 @@ function openConnectionDB() {
     // Parametros de la conexion.
     $servername = "localhost:3306";
     $username = "root";
-    $password = "Eusebiouribarri13";
+    $password = "";
     $db = "taskmanager";
 
     // Intento de conexion.

@@ -6,14 +6,16 @@ body {
 }
 
 header {
-  background-color: #d97706;
+  background-color: #1C1C1C;
+  padding: 10px;
 }
 
 footer {
   margin-top: auto;
-  background-color: #d97706;
+  background-color: #1C1C1C;
   padding: 10px 0;
   text-align: center;
+  color: #FFFFFF;
 }
 
 .btn-outline-primary {
@@ -30,7 +32,7 @@ footer {
 
 @media screen and (max-width: 991px) {
   .offcanvas-header{
-    background-color: #d97706;
+    background-color: #444444;
     color: #ffffff;
   }
   
@@ -38,4 +40,32 @@ footer {
     background-color: #444444;
     color: #ffffff;
   }
+}
+
+/* //*Ventana: Tasks.php  */
+
+/* Cabezera de las cartas  */
+.card-header{
+  background-color: #1C1C1C;
+  color: #FFFFFF;
+}
+
+/* Hover para las cartas  */
+.card-container .card:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+p{
+  color: white;
+}
+
+/* Header  */
+.nav-link{
+  color: #FFFFFF;
+}
+
+.navbar-brand{
+  color: #FFFFFF;
 }
