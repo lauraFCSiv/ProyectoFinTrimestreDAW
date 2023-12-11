@@ -19,7 +19,11 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles/StylesClaro.css">
+    <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
     <title>TurronTasker: Todas las tareas</title>
 </head>
 
@@ -85,7 +89,7 @@
                         <!-- //*Diseño carta -->
                         <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
                             <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
-                                <div class="card-header text-dark">
+                                <div class="card-header">
                                     <h5>'.$task['name'].'</h5>
                                     <h6>'.$task['category_name'].'</h6>
                                 </div>
@@ -156,4 +160,6 @@
     ?>
     </div>
     <script src="../js/tasks.js"></script>
+    <script src="../js/profile.js"></script>
+
 </body>

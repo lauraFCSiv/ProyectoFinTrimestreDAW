@@ -40,7 +40,11 @@
                             foreach ($result as $user){
                                 //Comprobamos si la contraseña escrita coincide en la base de datos (hasheada)
                                 if(password_verify($_POST['passwordlogin'], $user['password'])){
-                                $loginSuccess = true;   
+                                $loginSuccess = true;
+                                // Cuenta activa = 1 | cuenta desactivada = 0
+                                if ($user['active'] == 0) {
+                                    echo "Esta cuenta está eliminada.";
+                                }
                                 $_SESSION['userid'] = $user['id'];
                                 $_SESSION['username'] = $user['username'];
                                 }
