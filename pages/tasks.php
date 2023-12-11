@@ -164,6 +164,5 @@
     </div>
     <script src="../js/tasks.js"></script>
     <script src="../js/profile.js"></script>
-
 </body>
 </html>

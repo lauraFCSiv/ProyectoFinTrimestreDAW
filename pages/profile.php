@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col mt-5">
                 <!-- Botones para cambiar los colores de la página -->
-                <p>Cambiar tema:</p>
+                <p class="profileText">Cambiar tema:</p>
                 <button class="btn btn-outline-primary" onclick="changeTheme('claro')">Modo Claro</button>
                 <button class=" btn btn-outline-primary" onclick="changeTheme('oscuro')">Modo Oscuro</button>
                 <button class=" btn btn-outline-primary" onclick="changeTheme('calido')">Modo Cálido</button>
@@ -65,7 +65,7 @@
 
         <div class="row">
             <div class="col mt-5">
-                <p>Eliminar cuenta:</p>
+                <p class="profileText">Eliminar cuenta:</p>
                 <!-- Enlace para abrir la ventana modal -->
                 <a href="#" class="btn btn-danger text-center" data-bs-toggle="modal"
                     data-bs-target="#deleteAccountModal">
