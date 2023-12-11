@@ -319,7 +319,9 @@ function countTasks($type){
         $conn = openConnectionDB();
     
         // Asegúrate de escapar los datos para prevenir inyección SQL
-        $nuevosDatosEscapados = array_map('mysqli_real_escape_string', $conn, $newDates);
+        $nuevosDatosEscapados = array_map(function($value) use ($conn) {
+            return mysqli_real_escape_string($conn, $value);
+        }, $newDates);
     
         // Construye la consulta para actualizar los datos del usuario
         $sql = "UPDATE users SET 
