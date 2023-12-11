@@ -214,6 +214,31 @@ function searchByFilter($query, $type) {
     // Devolver tareas
     return $tasks;
 }
+function eliminarTarea($taskId) {
+    $conn = openConnectionDB();
+
+    // Utilizamos una consulta preparada para evitar la inyección de SQL
+    $sql = "DELETE FROM tasks WHERE id = ?";
+    
+    // Preparamos la consulta
+    $stmt = $conn->prepare($sql);
+    
+    // Vinculamos el parámetro
+    $stmt->bind_param("i", $taskId);
+    
+    // Ejecutamos la consulta
+    if ($stmt->execute()) {
+        // Éxito al eliminar la tarea
+       
+    } else {
+        // Manejar el error si es necesario
+        echo "Error al eliminar la tarea: " . $stmt->error;
+    }
+
+    // Cerramos la consulta y la conexión a la base de datos
+    $stmt->close();
+    closeConnectionDB($conn);
+}
 
 function getNextTasksDate(){
     // Abrir conexion con la base de datos.
