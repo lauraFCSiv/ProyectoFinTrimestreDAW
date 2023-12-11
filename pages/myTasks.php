@@ -46,62 +46,71 @@
             header("Location: login.php");
             exit();
         }
+         // Eliminar tarea:
+         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
+            $taskIdToDelete = $_POST["deleteTask"];
+        
+            // Obtener el creador de la tarea
+            $taskCreatorId = getTaskCreatorId($taskIdToDelete);
+        
+            if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
+                eliminarTarea($taskIdToDelete);
+                // Después de eliminar, redirige o actualiza la página según sea necesario
+            echo "<script>window.location.href='tasks.php'</script>";
+            } else {
+                // El usuario actual no tiene permiso para eliminar esta tarea
+                $deleteError = "No tienes permiso para eliminar esta tarea.";
+            }
+        }
 
         // Obtener el ID del usuario logeado
         $userid = $_SESSION['userid'];
             // Obtener las tareas del usuario logeado
             $tasks = getMytasks($userid);
 
+           
             foreach ($tasks as $task) {
-                echo '
-                    <div class="col-3">
-                        <div class="card text-center border border-black m-2" id="idCard' . $task['id'] . '">
-                            <div class="card-header text-dark">
-                                <h5>' . $task['name'] . '</h5>
+            ?>
+                <div class="col-3">
+                    <div class="card text-center border border-black m-2" id="idCard<?php echo $task['id']; ?>">
+                        <div class="card-header text-dark">
+                            <h5><?php echo $task['name']; ?></h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-text">
+                                <p>Fecha Limite: <?php echo $task['due_date']; ?></p>
                             </div>
-                            <div class="card-body">
-                                <div class="card-text">
-                                    <p>Fecha Limite: ' . $task['due_date'] . '</p>
-                                </div>
-                                <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal' . $task['id'] . '">Detalles</button>
+                            <form method="post" action="">
+                                <input type="hidden" name="deleteTask" value="<?php echo $task['id']; ?>">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                            <button class="buttonCardsTasks btn btn-primary mt-2 btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModal<?php echo $task['id']; ?>">Detalles</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="exampleModal<?php echo $task['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><?php echo $task['name']; ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php echo $task['description']; ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">Agregar tarea</button>
                             </div>
                         </div>
                     </div>
-                    <div class="modal fade" id="exampleModal' . $task['id'] . '" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">' . $task['name'] . '</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ' . $task['description'] . '
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary">Agregar tarea</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>';
+                </div>
+            <?php
             }
-             // Eliminar tarea:
-             if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
-                $taskIdToDelete = $_POST["deleteTask"];
-            
-                // Obtener el creador de la tarea
-                $taskCreatorId = getTaskCreatorId($taskIdToDelete);
-            
-                if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
-                    eliminarTarea($taskIdToDelete);
-                    // Después de eliminar, redirige o actualiza la página según sea necesario
-                echo "<script>window.location.href='tasks.php'</script>";
-                } else {
-                    // El usuario actual no tiene permiso para eliminar esta tarea
-                    $deleteError = "No tienes permiso para eliminar esta tarea.";
-                }
-            }
+           
             ?>
+            
+             
         </div>
     </div>
     <?php

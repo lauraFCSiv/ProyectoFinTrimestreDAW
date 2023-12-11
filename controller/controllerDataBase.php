@@ -323,8 +323,7 @@ function countTasks($type){
     
         // Construye la consulta para actualizar los datos del usuario
         $sql = "UPDATE users SET 
-                nombre = '{$nuevosDatosEscapados['nombre']}', 
-                apellido = '{$nuevosDatosEscapados['apellido']}', 
+                nombre = '{$nuevosDatosEscapados['nombre']}',  
                 email = '{$nuevosDatosEscapados['email']}' 
                 WHERE id = '$userId'";
     

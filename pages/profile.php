@@ -46,22 +46,25 @@
         </div>
 
         <div class="row">
-            <div class="col mt-5">
-                <!-- Formulario para actualizar datos del usuario -->
-                <form method="POST" action="profile.php">
-                    <label for="nuevo_nombre">Nuevo Nombre:</label>
-                    <input type="text" name="nuevo_nombre" required>
-
-                    <label for="nuevo_apellido">Nuevo Apellido:</label>
-                    <input type="text" name="nuevo_apellido" required>
-
-                    <label for="nuevo_email">Nuevo Email:</label>
-                    <input type="email" name="nuevo_email" required>
-
-                    <button type="submit" name="actualizarDatos">Actualizar Datos</button>
-                </form>
+    <div class="col mt-5">
+        <!-- Formulario para actualizar datos del usuario -->
+        <form method="POST" action="profile.php">
+            <div class="mb-3">
+                <label for="nuevo_nombre" class="form-label">Nuevo Nombre:</label>
+                <input type="text" name="nuevo_nombre" class="form-control" required>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="nuevo_email" class="form-label">Nuevo Email:</label>
+                <input type="email" name="nuevo_email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" name="actualizarDatos" class="btn btn-primary">Actualizar Datos</button>
+            </div>
+        </form>
+    </div>
+</div>
 
         <div class="row">
             <div class="col mt-5">
@@ -105,7 +108,6 @@
                         // Obtener los nuevos datos del formulario (asegúrate de validar y sanitizar estos datos)
                         $newDates = array(
                             'nombre' => $_POST['nuevo_nombre'],
-                            'apellido' => $_POST['nuevo_apellido'],
                             'email' => $_POST['nuevo_email']
                         );
 
