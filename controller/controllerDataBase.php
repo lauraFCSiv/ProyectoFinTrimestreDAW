@@ -337,4 +337,31 @@ function countTasks($type){
         // Cerrar la conexión a la base de datos
         closeConnectionDB($conn);
     }
+    function getTaskCreatorId($taskId) {
+        $conn = openConnectionDB();
+    
+        // Utilizamos una consulta preparada para evitar la inyección de SQL
+        $sql = "SELECT user_id FROM tasks WHERE id = ?";
+        
+        // Preparamos la consulta
+        $stmt = $conn->prepare($sql);
+        
+        // Vinculamos el parámetro
+        $stmt->bind_param("i", $taskId);
+        
+        // Ejecutamos la consulta
+        $stmt->execute();
+    
+        // Vinculamos el resultado a una variable
+        $stmt->bind_result($taskCreatorId);
+    
+        // Obtenemos el resultado
+        $stmt->fetch();
+    
+        // Cerramos la consulta y la conexión a la base de datos
+        $stmt->close();
+        closeConnectionDB($conn);
+    
+        return $taskCreatorId;
+    }
 ?>
