@@ -363,7 +363,8 @@ function countTasks($type){
     
         return $taskCreatorId;
     }
-    /**
+
+ /**
  * Obtener las tareas asignadas al usuario actual.
  *
  * @param int $userid ID del usuario actual.
@@ -396,4 +397,12 @@ function getMytasks($userid)
     return $tasks;
 }
 
+
+function finishTask($taskId){
+  $conn = openConnectionDB();
+  $query = "UPDATE tasks SET status = 'Finalizada' WHERE id = $taskId";
+  $conn->query($query);
+  
+  closeConnectionDB($conn);
+}
 ?>
