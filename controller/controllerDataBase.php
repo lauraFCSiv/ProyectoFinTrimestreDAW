@@ -438,4 +438,41 @@ function finishTask($taskId){
   
   closeConnectionDB($conn);
 }
+
+
+function getCategories(){
+     // Abrir conexión con la base de datos.
+     $conn = openConnectionDB();
+
+     // Consulta para obtener todas las categorías.
+     $query = "SELECT `categories`.*, `categories`.`id` as 'id' FROM `categories`";
+ 
+     // Ejecutar la consulta.
+     $result = $conn->query($query);
+
+    // Cerrar la conexión
+    closeConnectionDB($conn);
+
+    // Devolver resultado
+    return $result;
+}
+
+
+function insertTask($nombre, $descripcion, $fechaEntrega, $categoria, $user_creator) {
+    // Abrir conexión con la base de datos
+    $conn = openConnectionDB();
+
+    // Consulta SQL corregida
+    $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, 'user_creator', `user_id`)
+            VALUES ('$nombre', '$descripcion', '$categoria', 'Pendiente', CURRENT_DATE, null,'$fechaEntrega', '$user_creator', null)";
+
+    // Ejecutar la consulta
+    $result = $conn->query($sql);
+
+    // Cerrar la conexión
+    closeConnectionDB($conn);
+
+    // Devolver el resultado de la consulta (true si se insertó correctamente, false si hubo un error)
+    return $result;
+}
 ?>
