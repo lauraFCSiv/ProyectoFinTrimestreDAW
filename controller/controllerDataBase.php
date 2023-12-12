@@ -73,9 +73,9 @@ function register($user, $email, $password){
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
         // Llamada a la función sendWelcomeMessage (//!probando. Borrar luego)
-        if ($result3 === true) {
-        sendWelcomeMessage();
-        }
+        // if ($result3 === true) {
+        // sendWelcomeMessage();
+        // }
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Devolver resultado.
@@ -448,36 +448,36 @@ function finishTask($taskId){
      * 
      */
 
-     require '../vendor/autoload.php';
-     use PHPMailer\PHPMailer\PHPMailer;
-     use PHPMailer\PHPMailer\Exception;
+    //  require '../vendor/autoload.php';
+    //  use PHPMailer\PHPMailer\PHPMailer;
+    //  use PHPMailer\PHPMailer\Exception;
      
-     function sendWelcomeMessage()
-     {
-         $mail = new PHPMailer(true);
-         try {
-             $mail->isSMTP();
+    //  function sendWelcomeMessage()
+    //  {
+    //      $mail = new PHPMailer(true);
+    //      try {
+    //          $mail->isSMTP();
      
-             $mail->Host = 'DESKTOP-K6HGJMH';
-             $mail->SMTPAuth = 'false';
-             $mail->Username = '';
-             $mail->Password = '';
-             $mail->SMTPPort = 25;
-             //configuración del correo
-             $mail->setFrom('supermerk2@gmail.com');
-             $mail->addAddress('marco2@gmail.com');
-             $mail->subject = 'SUPERMERCADO SUPERMERCADO';
-             $mail->Body = 'CUMBIA';
+    //          $mail->Host = 'DESKTOP-K6HGJMH';
+    //          $mail->SMTPAuth = 'false';
+    //          $mail->Username = '';
+    //          $mail->Password = '';
+    //          $mail->SMTPPort = 25;
+    //          //configuración del correo
+    //          $mail->setFrom('supermerk2@gmail.com');
+    //          $mail->addAddress('marco2@gmail.com');
+    //          $mail->subject = 'SUPERMERCADO SUPERMERCADO';
+    //          $mail->Body = 'CUMBIA';
      
-             $result = $mail->send();
-             if ($result === TRUE) {
-                 echo "Correo enviado";
-             } else {
-                 echo "Error en el envío de correo";
-             }
+    //          $result = $mail->send();
+    //          if ($result === TRUE) {
+    //              echo "Correo enviado";
+    //          } else {
+    //              echo "Error en el envío de correo";
+    //          }
      
-         } catch (Exception) {
+    //      } catch (Exception) {
      
-         }
-     }
+    //      }
+    //  }
 ?>
