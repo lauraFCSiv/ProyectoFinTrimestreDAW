@@ -425,13 +425,13 @@ function getCategories(){
 }
 
 
-function insertTask($nombre, $descripcion, $fechaEntrega, $categoria, $userId) {
+function insertTask($nombre, $descripcion, $fechaEntrega, $categoria, $user_creator) {
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
     // Consulta SQL corregida
-    $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, `user_id`)
-            VALUES ('$nombre', '$descripcion', '$categoria', 'Pendiente', CURRENT_DATE, null,'$fechaEntrega', '$userId')";
+    $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, 'user_creator', `user_id`)
+            VALUES ('$nombre', '$descripcion', '$categoria', 'Pendiente', CURRENT_DATE, null,'$fechaEntrega', '$user_creator', null)";
 
     // Ejecutar la consulta
     $result = $conn->query($sql);
