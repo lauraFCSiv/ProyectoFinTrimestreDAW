@@ -283,8 +283,9 @@ function countTasks($type){
 }
 
 /**
+ * @version 1.0.
+ * @author marco
  * Comprueba si un usuario ya tiene la tarea signada
- *
  * @param int $taskIdID id de una tarea seleccionada.
  * @return mixed
  */
@@ -310,18 +311,36 @@ function countTasks($type){
     }
 
 /**
- *Función que se encarga de "eliminar" un usuario cambiando valores en la columna "active"
- * con 1 por defecto a 0
+ * @version 1.0.
+ * @author marco
+ * Función que se encarga de "eliminar" el usuario actual cambiando valores en la columna "active"
+ * con un 1 por defecto a 0
  *
  * @param int $userid ID del usuario actual.
  * @return mixed
  */
     function deleteAccount($userId) {
         $conn = openConnectionDB();
-          // Se actualiza la columna 'active' a 0 para el usuario
+          // Se actualiza la columna 'active' a 0 para el usuario actual
         $query = "UPDATE users SET active = 0 WHERE id = $userId";
         $conn->query($query);
 
+        closeConnectionDB($conn);
+      }
+/**
+ * @version 1.0.
+ * @author marco
+ * Función que se encarga de "cambiar" el usuario actual cambiando valores en la columna "is_admin"
+ * con un 0 por defecto a 1
+ *
+ * @param int $userid ID del usuario actual.
+ * @return mixed
+ */
+      function changeAccountToAdminMode($userId){
+        $conn = openConnectionDB();
+        //Se actualiza la columna "admin" a 1 para el usuario actual
+        $query = "UPDATE users SET is_admin = 1 WHERE id = $userId";
+        $conn->query($query);
         closeConnectionDB($conn);
       }
 
