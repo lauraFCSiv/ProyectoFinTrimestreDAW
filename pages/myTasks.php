@@ -1,10 +1,11 @@
 <?php
+include('../controller/controllerDataBase.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TurronTasker: Mis tareas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
@@ -15,38 +16,15 @@
 
 <body>
     <?php
-    include("../includes/header.php");
+    include("../includes/header.php"); // Asumo que la sesión se inicia en header.php
     ?>
     <div class="container">
-        <div class="row mt-5">
-            <div class="col">
-                <form method="post" action="">
-                    <div class="input-group mb-3">
-                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de tarea">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit" name="submit">Buscar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
         <div class="row mt-5 align-items-center">
             <?php
-            // Incluir el archivo de funciones de la base de datos
-        include('../controller/controllerDataBase.php');
+            // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
+            $userid = $_SESSION['userid'];
 
-        // Verificar si el usuario está logeado (puedes implementar tu lógica de autenticación aquí)
-        // Supongamos que tienes una variable de sesión llamada $_SESSION['user_id']
-
-        if (!isset($_SESSION['userid'])) {
-            // Redirigir al usuario a la página de inicio de sesión si no está autenticado
-            header("Location: login.php");
-            exit();
-        }
-
-        // Obtener el ID del usuario logeado
-        $userid = $_SESSION['userid'];
-            // Obtener las tareas del usuario logeado
+            // Obtener las tareas asignadas al usuario logeado
             $tasks = getMytasks($userid);
 
             foreach ($tasks as $task) {
@@ -82,14 +60,12 @@
                         </div>
                     </div>';
             }
-            
             ?>
         </div>
     </div>
     <?php
     include("../includes/footer.php");
     ?>
-    </div>
 </body>
 
 </html>
