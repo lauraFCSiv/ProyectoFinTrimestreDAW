@@ -14,7 +14,6 @@ function openConnectionDB() {
     $servername = "localhost:3306";
     $username = "root";
     $password = "Eusebiouribarri13";
-=======
     $password = "123";
 
     $db = "taskmanager";
