@@ -50,17 +50,17 @@
                 <p class="profileText">Cambiar a administrador:</p>
                      <!-- Enlace para abrir la ventana modal -->
                 <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
-                    data-bs-target="#deleteAccountModal">
+                    data-bs-target="#adminAccountModal">
                     Modo administrador
                 </a>
 
                 <!-- Modal para confirmar el cambio de cuenta a administrador -->
-                <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel"
+                <div class="modal fade" id="adminAccountModal" tabindex="-1" aria-labelledby="adminAccountModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="deleteAccountModalLabel">Cambiar a modo administrador</h5>
+                                <h5 class="modal-title" id="adminAccountModalLabel">Cambiar a modo administrador</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>

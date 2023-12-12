@@ -93,11 +93,6 @@
                                     <div class="card-text">
                                         <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
-                                    <!-- Formulario simplificado para eliminar la tarea -->
-                                    <form method="post" action="">
-                                        <input type="hidden" name="deleteTask" value="'.$task['id'].'">
-                                        <button type="submit" class="btn btn-outline-primary">Eliminar</button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -116,6 +111,14 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
                                         if (isset($_SESSION['userid'])) {
+                                            if ($_SESSION['userid'] == $task['user_creator']){
+                                                echo '
+                                                <!-- Formulario simplificado para eliminar la tarea -->
+                                                <form method="post" action="">
+                                                    <input type="hidden" name="deleteTask" value="'.$task['id'].'">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>';
+                                            }
                                             $taskAssignedAlready = isTaskAssigned($task['id']);
                                             if ($taskAssignedAlready) {
                                                 echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
@@ -125,11 +128,7 @@
                                                         <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
                                                     </form>';
                                             }
-                                        } else {
-                                            echo '<button type="button" class="btn btn-primary disabled">Agregar tarea</button>';
                                         }
-
-                                        
                                         echo '
                                     </div>
                                 </div>
@@ -149,18 +148,9 @@
                 // Eliminar tarea:
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
                     $taskIdToDelete = $_POST["deleteTask"];
-                
-                    // Obtener el creador de la tarea
-                    $taskCreatorId = getTaskCreatorId($taskIdToDelete);
-                
-                    if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
-                        eliminarTarea($taskIdToDelete);
-                        // Después de eliminar, redirige o actualiza la página según sea necesario
+                    deleteTask($taskIdToDelete);
+                    // Después de eliminar, redirige o actualiza la página según sea necesario
                     echo "<script>window.location.href='tasks.php'</script>";
-                    } else {
-                        // El usuario actual no tiene permiso para eliminar esta tarea
-                        $deleteError = "No tienes permiso para eliminar esta tarea.";
-                    }
                 }
             ?>
             <div class="input-group-append" style="margin-top: 25px">
@@ -185,20 +175,20 @@
                                 <!-- Formulario para la creación de tarea -->
                                 <form method="post" action="">
                                     <div class="mb-3">
-                                        <label for="nombreTarea" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="nombreTarea" name="nombreTarea" required>
+                                        <label for="taskName" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="taskName" name="taskName" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="descripcionTarea" class="form-label">Descripción</label>
-                                        <textarea class="form-control" id="descripcionTarea" name="descripcionTarea" required></textarea>
+                                        <label for="taskDescription" class="form-label">Descripción</label>
+                                        <textarea class="form-control" id="taskDescription" name="taskDescription" required></textarea>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="fechaEntrega" class="form-label">Fecha de Entrega</label>
-                                        <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+                                        <label for="dueDate" class="form-label">Fecha de Entrega</label>
+                                        <input type="date" class="form-control" id="dueDate" name="dueDate" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="categoriaTarea" class="form-label">Categoría</label>
-                                        <select class="form-select" id="categoriaTarea" name="categoriaTarea" required>
+                                        <label for="categoryTask" class="form-label">Categoría</label>
+                                        <select class="form-select" id="categoryTask" name="categoryTask" required>
                                         <?php
                                         // Llamar a la función getCategories()
                                         $categories = getCategories();
@@ -212,7 +202,7 @@
                                         ?>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-primary" name="crearTarea">Crear Tarea</button>                                
+                                    <button type="submit" class="btn btn-primary" name="createTask">Crear Tarea</button>                                
                                 </form>
                             </div>
                         </div>
@@ -223,19 +213,20 @@
         
         <?php
         // Procesar el formulario cuando se envía
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["crearTarea"])) {
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["createTask"])) {
             // Validar campos
-            $nombreTarea = $_POST["nombreTarea"];
-            $descripcionTarea = $_POST["descripcionTarea"];
-            $fechaEntrega = $_POST["fechaEntrega"];
-            $categoriaTarea = $_POST["categoriaTarea"];
+            $taskName = $_POST["taskName"];
+            $taskDescription = $_POST["taskDescription"];
+            $dueDate = $_POST["dueDate"];
+            $categoryTask = $_POST["categoryTask"];
 
-            if (empty($nombreTarea) || empty($descripcionTarea) || empty($fechaEntrega) || empty($categoriaTarea)) {
+            if (empty($taskName) || empty($taskDescription) || empty($dueDate) || empty($categoryTask)) {
                 // Al menos uno de los campos está vacío
                 echo "Por favor, completa todos los campos.";
             } else {
                 // Insertar tarea en la base de datos
-                $insertResult = insertTask($nombreTarea, $descripcionTarea, $fechaEntrega, $categoriaTarea, $_SESSION['userid']);
+                $insertResult = insertTask($taskName, $taskDescription, $dueDate, $categoryTask, $_SESSION['userid']);
+                echo "<script>window.location.href='tasks.php'</script>";
             }
         }
         ?>
