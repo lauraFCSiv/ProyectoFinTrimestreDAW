@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +16,12 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles/StylesClaro.css">
+
+        <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
     <title>TurronTasker: Tareas Asignadas</title>
 </head>
 
@@ -69,7 +71,7 @@
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                     // Obtener la consulta de búsqueda del formulario
                     if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["search"])){
-                    $query = $_POST["search"];
+                        $query = $_POST["search"];
                         // Realizar la búsqueda en la base de datos y obtener los resultados
                         $result = searchTasksInDatabase($query, "assigned");
                     }else if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["sort"])){
@@ -110,14 +112,28 @@
                                         <div class="modal-body">
                                             '.$task['description'].'
                                         </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <div class="modal-footer">';
+                                    if ($task['user_id'] == $_SESSION['userid']){
+                                        echo '<form method="post" action="">
+                                            <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                            <button type="submit" name="finish_task" class="btn btn-primary">Finalizar tarea</button>
+                                        </form>';
+                                    }
+                                        echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>';
+                        } 
                         
-                        }               
+                                        //Solicitar asignar tarea:
+                    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_task'])) {
+                        if (isset($_SESSION['userid'])) {
+                            $taskId = $_POST['task_id'];
+                            finishTask($taskId);
+                            echo "<script>window.location.href='assignedTasks.php'</script>";
+                        }
+                    }
             ?>
         </div>        
     </div>
@@ -125,5 +141,6 @@
     include("../includes/footer.php");
     ?>
     </div>
+    <script src="../js/profile.js"></script>
     <script src="../js/tasks.js"></script>
 </body>
