@@ -78,7 +78,8 @@ CREATE TABLE `users` (
   `username` varchar(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `password` varchar(128) DEFAULT NULL,
-  `active` tinyint(1) DEFAULT NULL
+  `admin` tinyint(1) DEFAULT 0,
+  `active` tinyint(1) DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
