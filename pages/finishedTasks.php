@@ -19,7 +19,11 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles/StylesClaro.css">
+    <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
     <title>TurronTasker: Tareas finalizadas</title>
 </head>
 
@@ -136,4 +140,5 @@
     ?>
     </div>
     <script src="../js/tasks.js"></script>
+    <script src="../js/profile.js"></script>
 </body>

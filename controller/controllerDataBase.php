@@ -282,7 +282,12 @@ function countTasks($type){
 
 }
 
-    //Comprueba si un usuario ya tiene la tarea signada
+/**
+ * Comprueba si un usuario ya tiene la tarea signada
+ *
+ * @param int $taskIdID id de una tarea seleccionada.
+ * @return mixed
+ */
     function isTaskAssigned($taskId){
         $conn = openConnectionDB();
 
@@ -304,8 +309,13 @@ function countTasks($type){
         closeConnectionDB($conn);
     }
 
-    //Eliminamos usuario
-
+/**
+ *Función que se encarga de "eliminar" un usuario cambiando valores en la columna "active"
+ * con 1 por defecto a 0
+ *
+ * @param int $userid ID del usuario actual.
+ * @return mixed
+ */
     function deleteAccount($userId) {
         $conn = openConnectionDB();
           // Se actualiza la columna 'active' a 0 para el usuario

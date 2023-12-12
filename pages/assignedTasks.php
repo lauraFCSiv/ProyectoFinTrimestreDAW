@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,7 +16,12 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../styles/StylesClaro.css">
+
+        <!-- Temática color claro por defecto  -->
+    <link rel="stylesheet" href="../styles/StylesClaro.css?v=2" id="claro">
+    <!-- Temáticas adicionales deshabilitadas inicialmente -->
+    <link rel="stylesheet" href="../styles/StylesOscuro.css?v=2" id="oscuro" disabled>
+    <link rel="stylesheet" href="../styles/StylesCalido.css?v=2" id="calido" disabled>
     <title>TurronTasker: Tareas Asignadas</title>
 </head>
 
@@ -139,5 +141,6 @@
     include("../includes/footer.php");
     ?>
     </div>
+    <script src="../js/profile.js"></script>
     <script src="../js/tasks.js"></script>
 </body>
