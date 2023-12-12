@@ -167,7 +167,64 @@
                     }
                 }
             ?>
-        </div>        
+            <div class="input-group-append" style="margin-top: 25px">
+                <?php
+                if (isset($_SESSION['userid'])) {
+                    echo '<button class="btn btn-outline-primary rounded mx-1" type="button" data-bs-toggle="modal" data-bs-target="#nuevaTareaModal"> + Nueva Tarea</button>';
+                } else {
+                    echo '<a class="btn btn-outline-primary rounded mx-1" href="login.php"> + Nueva Tarea</a>';
+                }
+                ?>
+
+                <!-- Modal para nueva tarea -->
+                <div class="modal fade" id="nuevaTareaModal" tabindex="-1" aria-labelledby="nuevaTareaModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="nuevaTareaModalLabel">Nueva Tarea</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Formulario para la creación de tarea -->
+                                <form method="post" action="procesar_tarea.php">
+                                    <div class="mb-3">
+                                        <label for="nombreTarea" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombreTarea" name="nombreTarea" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="descripcionTarea" class="form-label">Descripción</label>
+                                        <textarea class="form-control" id="descripcionTarea" name="descripcionTarea" required></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fechaEntrega" class="form-label">Fecha de Entrega</label>
+                                        <input type="date" class="form-control" id="fechaEntrega" name="fechaEntrega" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="categoriaTarea" class="form-label">Categoría</label>
+                                        <select class="form-select" id="categoriaTarea" name="categoriaTarea" required>
+                                            <?php
+                                                // // Obtener las categorías desde la base de datos
+                                                // include('../controller/controllerDataBase.php');
+                                                // $categories = getCategories();
+
+                                                // // Generar opciones del select
+                                                // foreach ($categories as $category) {
+                                                //     echo '<option value="' . $category['name'] . '">' . $category['name'] . '</option>';
+                                                // }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <button type="submit" name="assign_task" class="btn btn-primary">Crear tarea</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
     </div>
     <?php
     include("../includes/footer.php");
