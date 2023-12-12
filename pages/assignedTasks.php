@@ -126,7 +126,7 @@
                         </div>';
                         } 
                         
-                                        //Solicitar asignar tarea:
+                    //Solicitar finalizar tarea:
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_task'])) {
                         if (isset($_SESSION['userid'])) {
                             $taskId = $_POST['task_id'];

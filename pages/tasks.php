@@ -125,11 +125,7 @@
                                                         <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
                                                     </form>';
                                             }
-                                        } else {
-                                            echo '<button type="button" class="btn btn-primary disabled">Asignar tarea</button>';
                                         }
-
-                                        
                                         echo '
                                     </div>
                                 </div>

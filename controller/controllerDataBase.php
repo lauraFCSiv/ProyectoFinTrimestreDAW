@@ -419,7 +419,7 @@ function getTaskCreatorId($taskId)
  * @param int $userid ID del usuario actual.
  * @return array Array de tareas asignadas al usuario.
  */
-function getMytasks($userid)
+function getMyTasks($userid)
 {
     // Abrir conexión con la base de datos.
     $conn = openConnectionDB();
@@ -428,7 +428,7 @@ function getMytasks($userid)
     $userid = $conn->real_escape_string($userid);
 
     // Consulta para obtener las tareas asignadas al usuario.
-    $query = "SELECT * FROM `tasks` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
     $result = $conn->query($query);
 
     // Almacenar los resultados en un array.
