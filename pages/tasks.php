@@ -176,6 +176,7 @@
                 }
                 ?>
 
+
                 <!-- Modal para nueva tarea -->
                 <div class="modal fade" id="nuevaTareaModal" tabindex="-1" aria-labelledby="nuevaTareaModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -186,7 +187,7 @@
                             </div>
                             <div class="modal-body">
                                 <!-- Formulario para la creación de tarea -->
-                                <form method="post" action="procesar_tarea.php">
+                                <form method="post" action="">
                                     <div class="mb-3">
                                         <label for="nombreTarea" class="form-label">Nombre</label>
                                         <input type="text" class="form-control" id="nombreTarea" name="nombreTarea" required>
@@ -209,12 +210,13 @@
                                         // Generar opciones del select
                                         foreach ($categories as $category) {
                                             $categoryName = $category['name'];
-                                            echo '<option value="' . $categoryName . '">' . $categoryName . '</option>';
+                                            $categoryID = $category['id'];
+                                            echo '<option value="' . $categoryID . '">' . $categoryName . '</option>';
                                         }
                                         ?>
                                         </select>
                                     </div>
-                                    <button type="submit" name="assign_task" class="btn btn-primary">Crear tarea</button>
+                                    <button type="submit" class="btn btn-primary" name="crearTarea">Crear Tarea</button>                                
                                 </form>
                             </div>
                         </div>
@@ -223,7 +225,24 @@
             </div>
         </div> 
         
-        
+        <?php
+        // Procesar el formulario cuando se envía
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["crearTarea"])) {
+            // Validar campos
+            $nombreTarea = $_POST["nombreTarea"];
+            $descripcionTarea = $_POST["descripcionTarea"];
+            $fechaEntrega = $_POST["fechaEntrega"];
+            $categoriaTarea = $_POST["categoriaTarea"];
+
+            if (empty($nombreTarea) || empty($descripcionTarea) || empty($fechaEntrega) || empty($categoriaTarea)) {
+                // Al menos uno de los campos está vacío
+                echo "Por favor, completa todos los campos.";
+            } else {
+                // Insertar tarea en la base de datos
+                $insertResult = insertTask($nombreTarea, $descripcionTarea, $fechaEntrega, $categoriaTarea, $_SESSION['userid']);
+            }
+        }
+        ?>
         
     </div>
     <?php
