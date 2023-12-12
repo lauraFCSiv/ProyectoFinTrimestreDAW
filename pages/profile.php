@@ -172,7 +172,7 @@
                     if (isset($_SESSION['userid'])) {
                         // Una vez con la sesión activa, se decide pasar a modo administrador
                         changeAccountToAdminMode($_SESSION['userid']);
-                        echo "<script>window.location.href='login.php'</script>";
+                        echo "<script>window.location.href='profile.php'</script>";
                     }
                 }
                 ?>
