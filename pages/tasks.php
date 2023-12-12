@@ -96,7 +96,7 @@
                                     <!-- Formulario simplificado para eliminar la tarea -->
                                     <form method="post" action="">
                                         <input type="hidden" name="deleteTask" value="'.$task['id'].'">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-outline-primary">Eliminar</button>
                                     </form>
                                 </div>
                             </div>
