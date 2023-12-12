@@ -72,6 +72,11 @@ function register($user, $email, $password){
         // En caso de que no se haya encontrado ningun usuario con ese nombre de usuario y ese correo, insertar en base de datos el nuevo usuario
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
+        // Mostrar el mensaje de bienvenida si el usuario es administrador
+            // if ($isAdmin) {
+                // sendWelcomeMessage();
+                // echo "hola";
+            // }
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Devolver resultado.
@@ -404,5 +409,53 @@ function finishTask($taskId){
   $conn->query($query);
   
   closeConnectionDB($conn);
+}
+
+    /**Enviar mensaje de bienvenida si un usuario se registra
+     * 
+     */
+
+    //  require 'vendor/autoload.php';
+    //  use PHPMailer\PHPMailer\PHPMailer;
+    //  use PHPMailer\PHPMailer\Exception;
+     
+    //  function sendWelcomeMessage()
+    //  {
+    //      $mail = new PHPMailer(true);
+    //      try {
+    //          $mail->isSMTP();
+     
+    //          $mail->Host = 'DESKTOP-K6HGJMH';
+    //          $mail->SMTPAuth = 'false';
+    //          $mail->Username = '';
+    //          $mail->Password = '';
+    //          $mail->SMTPPort = 25;
+    //          //configuración del correo
+    //          $mail->setFrom('supermerk2@gmail.com');
+    //          $mail->addAddress('marco2@gmail.com');
+    //          $mail->subject = 'SUPERMERCADO SUPERMERCADO';
+    //          $mail->Body = 'CUMBIA';
+     
+    //          $result = $mail->send();
+    //          if ($result === TRUE) {
+    //              echo "Correo enviado";
+    //          } else {
+    //              echo "Error en el envío de correo";
+    //          }
+     
+    //      } catch (Exception) {
+     
+    //      }
+    //  }
+
+    //cambiar a usuario administrador:
+    function changeToAdmin(){
+
+    $conn = openConnectionDB($isAdmin);
+    // Se actualiza la columna 'active' a 0 para el usuario
+    $query = "UPDATE users SET active = 1 WHERE is_admin = $isAdmin";
+    $conn->query($query);
+
+    closeConnectionDB($conn);    
 }
 ?>
