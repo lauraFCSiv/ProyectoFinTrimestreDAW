@@ -405,4 +405,19 @@ function finishTask($taskId){
   
   closeConnectionDB($conn);
 }
+
+
+function getCategories(){
+     // Abrir conexión con la base de datos.
+     $conn = openConnectionDB();
+
+     // Consulta para obtener todas las categorías.
+     $query = "SELECT `categories`.*, `categories`.`name` as 'name' FROM `categories`";
+ 
+     // Ejecutar la consulta.
+     $result = $conn->query($query);
+
+    // Devolver resultado
+    return $result;
+}
 ?>

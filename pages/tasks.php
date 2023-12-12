@@ -202,16 +202,16 @@
                                     <div class="mb-3">
                                         <label for="categoriaTarea" class="form-label">Categoría</label>
                                         <select class="form-select" id="categoriaTarea" name="categoriaTarea" required>
-                                            <?php
-                                                // // Obtener las categorías desde la base de datos
-                                                // include('../controller/controllerDataBase.php');
-                                                // $categories = getCategories();
+                                        <?php
+                                        // Llamar a la función getCategories()
+                                        $categories = getCategories();
 
-                                                // // Generar opciones del select
-                                                // foreach ($categories as $category) {
-                                                //     echo '<option value="' . $category['name'] . '">' . $category['name'] . '</option>';
-                                                // }
-                                            ?>
+                                        // Generar opciones del select
+                                        foreach ($categories as $category) {
+                                            $categoryName = $category['name'];
+                                            echo '<option value="' . $categoryName . '">' . $categoryName . '</option>';
+                                        }
+                                        ?>
                                         </select>
                                     </div>
                                     <button type="submit" name="assign_task" class="btn btn-primary">Crear tarea</button>
