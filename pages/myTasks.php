@@ -25,13 +25,13 @@ include('../controller/controllerDataBase.php');
     <div class="container">
         <div class="row mt-5 align-items-center">
             <div>
-                <h3>Tareas Asignadas</h3>
+                <h3>Mis Tareas Asignadas</h3>
                 <?php
                 // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
                 $userid = $_SESSION['userid'];
 
                 // Obtener las tareas asignadas al usuario logeado
-                $tasks = getMyTasks($userid);
+                $tasks = getMyAsignedTasks($userid);
 
                 foreach ($tasks as $task) {
                     echo '
@@ -71,7 +71,53 @@ include('../controller/controllerDataBase.php');
                 ?>
             </div>
             <div>
-                <h3>Tareas Creadas</h3>
+                <h3>Mis Tareas Finalizadas</h3>
+                <?php
+                // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
+                $userid = $_SESSION['userid'];
+
+                // Obtener las tareas asignadas al usuario logeado
+                $tasks = getMyFinishedTasks($userid);
+
+                foreach ($tasks as $task) {
+                    echo '
+                        <!-- //*Diseño carta -->
+                        <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
+                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                                <div class="card-header">
+                                    <h5>'.$task['name'].'</h5>
+                                    <h6>'.$task['category_name'].'</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <p>Fecha Limite: '.$task['due_date'].'</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- //*Popup de la carta (Modal) -->
+                        <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        '.$task['description'].'
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>';
+                }
+                ?>
+            </div>
+            <div>
+                <h3>Mis Tareas Creadas</h3>
             </div>
         </div>
     </div>

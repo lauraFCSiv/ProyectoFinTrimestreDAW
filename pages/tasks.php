@@ -93,11 +93,6 @@
                                     <div class="card-text">
                                         <p>Fecha Limite: '.$task['due_date'].'</p>
                                     </div>
-                                    <!-- Formulario simplificado para eliminar la tarea -->
-                                    <form method="post" action="">
-                                        <input type="hidden" name="deleteTask" value="'.$task['id'].'">
-                                        <button type="submit" class="btn btn-outline-primary">Eliminar</button>
-                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -116,6 +111,14 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
                                         if (isset($_SESSION['userid'])) {
+                                            if ($_SESSION['userid'] == $task['user_creator']){
+                                                echo '
+                                                <!-- Formulario simplificado para eliminar la tarea -->
+                                                <form method="post" action="">
+                                                    <input type="hidden" name="deleteTask" value="'.$task['id'].'">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>';
+                                            }
                                             $taskAssignedAlready = isTaskAssigned($task['id']);
                                             if ($taskAssignedAlready) {
                                                 echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
@@ -145,18 +148,9 @@
                 // Eliminar tarea:
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
                     $taskIdToDelete = $_POST["deleteTask"];
-                
-                    // Obtener el creador de la tarea
-                    $taskCreatorId = getTaskCreatorId($taskIdToDelete);
-                
-                    if (isset($_SESSION['userid']) && $_SESSION['userid'] == $taskCreatorId) {
-                        deleteTask($taskIdToDelete);
-                        // Después de eliminar, redirige o actualiza la página según sea necesario
-                        echo "<script>window.location.href='tasks.php'</script>";
-                    } else {
-                        // El usuario actual no tiene permiso para eliminar esta tarea
-                        $deleteError = "No tienes permiso para eliminar esta tarea.";
-                    }
+                    deleteTask($taskIdToDelete);
+                    // Después de eliminar, redirige o actualiza la página según sea necesario
+                    echo "<script>window.location.href='tasks.php'</script>";
                 }
             ?>
             <div class="input-group-append" style="margin-top: 25px">

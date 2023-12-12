@@ -414,12 +414,12 @@ function getTaskCreatorId($taskId)
 }
 
 /**
- * Obtener las tareas asignadas al usuario actual.
- *
+ * @author Eusebio U.
  * @param int $userid ID del usuario actual.
  * @return array Array de tareas asignadas al usuario.
+ * Obtener las tareas asignadas al usuario actual.
  */
-function getMyTasks($userid)
+function getMyAsignedTasks($userid)
 {
     // Abrir conexión con la base de datos.
     $conn = openConnectionDB();
@@ -429,6 +429,40 @@ function getMyTasks($userid)
 
     // Consulta para obtener las tareas asignadas al usuario.
     $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
+    $result = $conn->query($query);
+
+    // Almacenar los resultados en un array.
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array.
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos.
+    $conn->close();
+
+    // Devolver tareas asignadas al usuario.
+    return $tasks;
+}
+
+/**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @param int $userid ID del usuario actual.
+ * @return array Array de tareas asignadas al usuario.
+ * Obtener las tareas finalizadas al usuario actual.
+ */
+function getMyFinishedTasks($userid)
+{
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
+
+    // Escapar el ID del usuario para evitar inyecciones SQL.
+    $userid = $conn->real_escape_string($userid);
+
+    // Consulta para obtener las tareas asignadas al usuario.
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_id` = '$userid' AND `status` = 'Finalizada'";
     $result = $conn->query($query);
 
     // Almacenar los resultados en un array.
