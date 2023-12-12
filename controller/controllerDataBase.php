@@ -72,6 +72,10 @@ function register($user, $email, $password){
         // En caso de que no se haya encontrado ningun usuario con ese nombre de usuario y ese correo, insertar en base de datos el nuevo usuario
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
+        // Llamada a la función sendWelcomeMessage (//!probando. Borrar luego)
+        if ($result3 === true) {
+        sendWelcomeMessage();
+        }
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Devolver resultado.
@@ -332,14 +336,15 @@ function countTasks($type){
  * @author marco
  * Función que se encarga de "cambiar" el usuario actual cambiando valores en la columna "is_admin"
  * con un 0 por defecto a 1
- *
+ * Se agrega una nueva columna en la tabla usuarios:
+ * ALTER TABLE `users` ADD COLUMN `admin` TINYINT(1) DEFAULT 0;
  * @param int $userid ID del usuario actual.
  * @return mixed
  */
       function changeAccountToAdminMode($userId){
         $conn = openConnectionDB();
         //Se actualiza la columna "admin" a 1 para el usuario actual
-        $query = "UPDATE users SET is_admin = 1 WHERE id = $userId";
+        $query = "UPDATE users SET admin = 1 WHERE id = $userId";
         $conn->query($query);
         closeConnectionDB($conn);
       }
@@ -438,4 +443,41 @@ function finishTask($taskId){
   
   closeConnectionDB($conn);
 }
+
+    /**Enviar mensaje de bienvenida si un usuario se registra
+     * 
+     */
+
+     require '../vendor/autoload.php';
+     use PHPMailer\PHPMailer\PHPMailer;
+     use PHPMailer\PHPMailer\Exception;
+     
+     function sendWelcomeMessage()
+     {
+         $mail = new PHPMailer(true);
+         try {
+             $mail->isSMTP();
+     
+             $mail->Host = 'DESKTOP-K6HGJMH';
+             $mail->SMTPAuth = 'false';
+             $mail->Username = '';
+             $mail->Password = '';
+             $mail->SMTPPort = 25;
+             //configuración del correo
+             $mail->setFrom('supermerk2@gmail.com');
+             $mail->addAddress('marco2@gmail.com');
+             $mail->subject = 'SUPERMERCADO SUPERMERCADO';
+             $mail->Body = 'CUMBIA';
+     
+             $result = $mail->send();
+             if ($result === TRUE) {
+                 echo "Correo enviado";
+             } else {
+                 echo "Error en el envío de correo";
+             }
+     
+         } catch (Exception) {
+     
+         }
+     }
 ?>
