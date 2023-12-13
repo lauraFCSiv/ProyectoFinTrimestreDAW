@@ -81,9 +81,9 @@ function register($user, $email, $password)
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
         // Llamada a la función sendWelcomeMessage (//!probando. Borrar luego)
-        if ($result3 === true) {
-        sendWelcomeMessage();
-        }
+        // if ($result3 === true) {
+        // sendWelcomeMessage();
+        // }
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Devolver resultado.
@@ -419,10 +419,6 @@ function deleteAccount($userId)
         return $taskCreatorId;
     }
 
- /**
- * Obtener las tareas asignadas al usuario actual.
-    closeConnectionDB($conn);
-}
 /**
  * @version 1.0.
  * @author Marco
@@ -593,42 +589,30 @@ function getUserTaskCount($ID_user){
     }
 }
 
-    /**Enviar mensaje de bienvenida si un usuario se registra
-     * 
-     */
+function isUserAdmin($userId)
+{
+    $conn = openConnectionDB();
 
-     require '../vendor/autoload.php';
-     use PHPMailer\PHPMailer\PHPMailer;
-     use PHPMailer\PHPMailer\Exception;
-     
-     function sendWelcomeMessage()
-     //usar un parametro, y esto usarlo luego como identificador en el input y button del form
-     {
-         $mail = new PHPMailer(true);
-         try {
-             $mail->isSMTP();
-     
-             $mail->Host = 'DESKTOP-K6HGJMH';
-             $mail->SMTPAuth = 'false';
-             $mail->Username = '';
-             $mail->Password = '';
-             $mail->SMTPPort = 25;
-             //configuración del correo
-             $mail->setFrom('supermerk2@gmail.com');
-             $mail->addAddress('marco2@gmail.com');
-             $mail->subject = 'INVITACIÓN PARA UNIRTE AL GRUPO DE TRABAJO';
-             $mail->Body = 'dale unite';
-     
-             $result = $mail->send();
-             if ($result === TRUE) {
-                 echo "Correo enviado";
-             } else {
-                 echo "Error en el envío de correo";
-             }
-     
-         } catch (Exception) {
-     
-         }
-     }
+    // Utilizamos un parámetro en la consulta para verificar un usuario específico
+    $query = "SELECT admin FROM users WHERE id = $userId";
+
+    // Ejecutamos la consulta
+    $result = $conn->query($query);
+
+    // Verificamos si la consulta fue exitosa y si hay al menos una fila de resultado
+    if ($result && $result->num_rows > 0) {
+        // Obtenemos la primera fila de resultado
+        $row = $result->fetch_assoc();
+
+        // Devolvemos el valor de la columna "admin"
+        return $row['admin'] == 1;
+    }
+
+    // Cerramos la conexión
+    closeConnectionDB($conn);
+
+    // En caso de error o si no se encontraron resultados, asumimos que el usuario no es administrador
+    return false;
+}
 
 ?>
