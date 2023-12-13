@@ -88,12 +88,12 @@
         <form method="POST" action="profile.php">
             <div class="mb-3">
                 <label for="nuevo_nombre" class="profileText form-label">Nuevo Nombre:</label>
-                <input type="text" name="nuevo_nombre" class="form-control" required>
+                <input type="text" name="nuevo_nombre" class="form-control">
             </div>
 
             <div class="mb-3">
                 <label for="nuevo_email" class="profileText form-label">Nuevo Email:</label>
-                <input type="email" name="nuevo_email" class="form-control" required>
+                <input type="email" name="nuevo_email" class="form-control">
             </div>
 
             <div class="mb-3">
