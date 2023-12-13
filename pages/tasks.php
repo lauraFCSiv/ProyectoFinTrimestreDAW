@@ -84,7 +84,7 @@
                     echo '
                         <!-- //*Diseño carta -->
                         <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
-                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                            <div class="card h-100 w-100 text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header">
                                     <h5>'.$task['name'].'</h5>
                                     <h6>'.$task['category_name'].'</h6>
@@ -111,22 +111,39 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
                                         if (isset($_SESSION['userid'])) {
-                                            if ($_SESSION['userid'] == $task['user_creator']){
+                                            if ($_SESSION['userid'] == $task['user_creator']) {
                                                 echo '
-                                                <!-- Formulario simplificado para eliminar la tarea -->
-                                                <form method="post" action="">
+                                                <!-- Formulario para eliminar la tarea con confirmación -->
+                                                <form method="post" action="" onsubmit="return confirmDelete();">
                                                     <input type="hidden" name="deleteTask" value="'.$task['id'].'">
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                </form>';
+                                                </form>
+                                        
+                                                <!-- Script de JavaScript para la confirmación -->
+                                                <script>
+                                                    function confirmDelete() {
+                                                       return confirm("¿Estás seguro de que quieres eliminar esta tarea?");
+                                                    }
+                                                </script>';
                                             }
                                             $taskAssignedAlready = isTaskAssigned($task['id']);
+
                                             if ($taskAssignedAlready) {
                                                 echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
                                             } else {
-                                                echo '<form method="post" action="">
-                                                        <input type="hidden" name="task_id" value="' . $task['id'] . '">
-                                                        <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
-                                                    </form>';
+                                                $userId = $_SESSION['userid'];
+                                            
+                                                // Verificar cuántas tareas tiene asignadas el usuario
+                                                $userTaskCount = getUserTaskCount($userId);
+                                            
+                                                if ($userTaskCount >= 5) {
+                                                    echo '<button type="button" class="btn btn-primary disabled">Límite alcanzado</button>';
+                                                } else {
+                                                    echo '<form method="post" action="">
+                                                            <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                                            <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
+                                                          </form>';
+                                                }
                                             }
                                         }
                                         echo '
@@ -148,7 +165,7 @@
                 // Eliminar tarea:
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
                     $taskIdToDelete = $_POST["deleteTask"];
-                    deleteTask($taskIdToDelete);
+                    eliminarTarea($taskIdToDelete);
                     // Después de eliminar, redirige o actualiza la página según sea necesario
                     echo "<script>window.location.href='tasks.php'</script>";
                 }
@@ -176,11 +193,11 @@
                                 <form method="post" action="">
                                     <div class="mb-3">
                                         <label for="taskName" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="taskName" name="taskName" required>
+                                        <input type="text" class="form-control" id="taskName" name="taskName" maxlength="32" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="taskDescription" class="form-label">Descripción</label>
-                                        <textarea class="form-control" id="taskDescription" name="taskDescription" required></textarea>
+                                        <textarea class="form-control" id="taskDescription" name="taskDescription" maxlength="128" required></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="dueDate" class="form-label">Fecha de Entrega</label>
