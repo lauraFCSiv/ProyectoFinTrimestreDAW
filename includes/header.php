@@ -83,6 +83,9 @@ session_start();
                                     ';
                         }
                         ?>
+                        <!-- barra de emergencia  -->
+                        
+                        <!-- otra barra de emergencia  -->
                     </ul>
                 </div>
             </div>
