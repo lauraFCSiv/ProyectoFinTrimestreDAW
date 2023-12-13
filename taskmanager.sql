@@ -56,7 +56,7 @@ CREATE TABLE `chat` (
 
 CREATE TABLE `tasks` (
   `id` int(11) NOT NULL,
-  `name` varchar(128) DEFAULT NULL,
+  `name` varchar(32) DEFAULT NULL,
   `description` varchar(128) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
   `status` varchar(30) DEFAULT NULL,
