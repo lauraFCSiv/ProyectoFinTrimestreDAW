@@ -114,6 +114,14 @@
                                         </div>
                                     <div class="modal-footer">';
                                     if ($task['user_id'] == $_SESSION['userid']){
+                                        if ($_SESSION['userid'] == $task['user_creator']){
+                                            echo '
+                                            <!-- Formulario simplificado para eliminar la tarea -->
+                                            <form method="post" action="">
+                                                <input type="hidden" name="deleteTask" value="'.$task['id'].'">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>';
+                                        }
                                         echo '<form method="post" action="">
                                             <input type="hidden" name="task_id" value="' . $task['id'] . '">
                                             <button type="submit" name="finish_task" class="btn btn-primary">Finalizar tarea</button>
@@ -126,7 +134,7 @@
                         </div>';
                         } 
                         
-                                        //Solicitar asignar tarea:
+                    //Solicitar finalizar tarea:
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_task'])) {
                         if (isset($_SESSION['userid'])) {
                             $taskId = $_POST['task_id'];
@@ -134,6 +142,14 @@
                             echo "<script>window.location.href='assignedTasks.php'</script>";
                         }
                     }
+
+                                    // Eliminar tarea:
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
+                    $taskIdToDelete = $_POST["deleteTask"];
+                    deleteTask($taskIdToDelete);
+                    // Después de eliminar, redirige o actualiza la página según sea necesario
+                    echo "<script>window.location.href='assignedTasks.php'</script>";
+                }
             ?>
         </div>        
     </div>
