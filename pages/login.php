@@ -58,6 +58,13 @@
 
                                 // Se almacena la variable de administrador en sesión
                                 $_SESSION['is_admin'] = $isAdmin;
+                                //para probar si el usuario elegido como admin tiene los respectivos permisos:
+                                // UPDATE users
+                                // SET admin = 1
+                                // WHERE username = 'nombre_de_usuario';
+
+                                // Redirecciona al index después de un inicio de sesión exitoso
+                                echo "<script>window.location.href='index.php'</script>";
                             }
                         }
                     }
