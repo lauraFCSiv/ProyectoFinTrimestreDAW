@@ -240,7 +240,7 @@ function searchByFilter($query, $type)
  * @return mixed
  * Funcion para eliminar las tareas.
  */
-function eliminarTarea($taskId) {
+function deleteTask($taskId) {
     $conn = openConnectionDB();
 
     // Utilizamos una consulta preparada para evitar la inyección de SQL
