@@ -80,6 +80,10 @@ function register($user, $email, $password)
         // En caso de que no se haya encontrado ningun usuario con ese nombre de usuario y ese correo, insertar en base de datos el nuevo usuario
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
+        // Llamada a la función sendWelcomeMessage (//!probando. Borrar luego)
+        // if ($result3 === true) {
+        // sendWelcomeMessage();
+        // }
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Devolver resultado.
@@ -415,10 +419,6 @@ function deleteAccount($userId)
         return $taskCreatorId;
     }
 
- /**
- * Obtener las tareas asignadas al usuario actual.
-    closeConnectionDB($conn);
-}
 /**
  * @version 1.0.
  * @author Marco
@@ -519,16 +519,15 @@ function finishTask($taskId)
 }
 
 
-function getCategories()
-{
-    // Abrir conexión con la base de datos.
-    $conn = openConnectionDB();
+function getCategories(){
+     // Abrir conexión con la base de datos.
+     $conn = openConnectionDB();
 
-    // Consulta para obtener todas las categorías.
-    $query = "SELECT `categories`.*, `categories`.`id` as 'id' FROM `categories`";
-
-    // Ejecutar la consulta.
-    $result = $conn->query($query);
+     // Consulta para obtener todas las categorías.
+     $query = "SELECT `categories`.*, `categories`.`id` as 'id' FROM `categories`";
+ 
+     // Ejecutar la consulta.
+     $result = $conn->query($query);
 
     // Cerrar la conexión
     closeConnectionDB($conn);
@@ -538,14 +537,13 @@ function getCategories()
 }
 
 
-function insertTask($taskName, $description, $dueDate, $category, $user_creator)
-{
+function insertTask($nombre, $descripcion, $fechaEntrega, $categoria, $user_creator) {
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
     // Consulta SQL corregida
     $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, `user_creator`, `user_id`)
-            VALUES ('$taskName', '$description', '$category', 'Nueva', 'CURRENT_DATE', NULL, '$dueDate', '$user_creator', NULL)";
+            VALUES ('$taskName', '$description', $category, 'Nueva', CURRENT_DATE, NULL, '$dueDate', $user_creator, NULL)";
 
     // Ejecutar la consulta
     $result = $conn->query($sql);
@@ -590,3 +588,31 @@ function getUserTaskCount($ID_user){
         return false;
     }
 }
+
+function isUserAdmin($userId)
+{
+    $conn = openConnectionDB();
+
+    // Utilizamos un parámetro en la consulta para verificar un usuario específico
+    $query = "SELECT admin FROM users WHERE id = $userId";
+
+    // Ejecutamos la consulta
+    $result = $conn->query($query);
+
+    // Verificamos si la consulta fue exitosa y si hay al menos una fila de resultado
+    if ($result && $result->num_rows > 0) {
+        // Obtenemos la primera fila de resultado
+        $row = $result->fetch_assoc();
+
+        // Devolvemos el valor de la columna "admin"
+        return $row['admin'] == 1;
+    }
+
+    // Cerramos la conexión
+    closeConnectionDB($conn);
+
+    // En caso de error o si no se encontraron resultados, asumimos que el usuario no es administrador
+    return false;
+}
+
+?>
