@@ -240,7 +240,7 @@ function eliminarTarea($taskId) {
     $conn = openConnectionDB();
 
     // Utilizamos una consulta preparada para evitar la inyección de SQL
-    $sql = "DELETE FROM tasks WHERE id = ?";
+    $sql = "DELETE FROM tasks WHERE id = user_creator";
 
     // Preparamos la consulta
     $stmt = $conn->prepare($sql);
