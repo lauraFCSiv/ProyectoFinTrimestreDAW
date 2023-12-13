@@ -435,6 +435,7 @@ function changeAccountToAdminMode($userId)
     closeConnectionDB($conn);
 }
 
+
 /**
  * @author Eusebio U.
  * @param int $userid ID del usuario actual.
