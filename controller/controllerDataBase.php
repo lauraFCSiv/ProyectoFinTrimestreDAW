@@ -545,7 +545,7 @@ function insertTask($taskName, $description, $dueDate, $category, $user_creator)
 
     // Consulta SQL corregida
     $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, `user_creator`, `user_id`)
-            VALUES ('$taskName', '$description', $category, 'Nueva', CURRENT_DATE, NULL, '$dueDate', $user_creator, NULL)";
+            VALUES ('$taskName', '$description', '$category', 'Nueva', 'CURRENT_DATE', NULL, '$dueDate', '$user_creator', NULL)";
 
     // Ejecutar la consulta
     $result = $conn->query($sql);

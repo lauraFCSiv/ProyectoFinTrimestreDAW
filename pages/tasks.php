@@ -111,13 +111,20 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
                                         if (isset($_SESSION['userid'])) {
-                                            if ($_SESSION['userid'] == $task['user_creator']){
+                                            if ($_SESSION['userid'] == $task['user_creator']) {
                                                 echo '
-                                                <!-- Formulario simplificado para eliminar la tarea -->
-                                                <form method="post" action="">
+                                                <!-- Formulario para eliminar la tarea con confirmación -->
+                                                <form method="post" action="" onsubmit="return confirmDelete();">
                                                     <input type="hidden" name="deleteTask" value="'.$task['id'].'">
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
-                                                </form>';
+                                                </form>
+                                        
+                                                <!-- Script de JavaScript para la confirmación -->
+                                                <script>
+                                                    function confirmDelete() {
+                                                       return confirm("¿Estás seguro de que quieres eliminar esta tarea?");
+                                                    }
+                                                </script>';
                                             }
                                             $taskAssignedAlready = isTaskAssigned($task['id']);
                                             if ($taskAssignedAlready) {
