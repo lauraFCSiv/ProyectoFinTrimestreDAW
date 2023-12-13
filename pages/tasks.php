@@ -84,7 +84,7 @@
                     echo '
                         <!-- //*Diseño carta -->
                         <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
-                            <div class="card text-center border border-black m-2" id="idCard'.$task['id'].'">
+                            <div class="card h-100 w-100 text-center border border-black m-2" id="idCard'.$task['id'].'">
                                 <div class="card-header">
                                     <h5>'.$task['name'].'</h5>
                                     <h6>'.$task['category_name'].'</h6>
@@ -176,11 +176,11 @@
                                 <form method="post" action="">
                                     <div class="mb-3">
                                         <label for="taskName" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="taskName" name="taskName" required>
+                                        <input type="text" class="form-control" id="taskName" name="taskName" maxlength="32" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="taskDescription" class="form-label">Descripción</label>
-                                        <textarea class="form-control" id="taskDescription" name="taskDescription" required></textarea>
+                                        <textarea class="form-control" id="taskDescription" name="taskDescription" maxlength="128" required></textarea>
                                     </div>
                                     <div class="mb-3">
                                         <label for="dueDate" class="form-label">Fecha de Entrega</label>
