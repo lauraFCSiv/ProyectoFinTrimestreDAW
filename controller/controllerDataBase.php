@@ -556,3 +556,37 @@ function insertTask($taskName, $description, $dueDate, $category, $user_creator)
     // Devolver el resultado de la consulta (true si se insertó correctamente, false si hubo un error)
     return $result;
 }
+
+function getUserTaskCount($ID_user){
+
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
+
+    // Consulta para obtener todas las categorías.
+    $query = "SELECT COUNT(*) as task_count FROM `tasks` WHERE `user_id` = $ID_user";
+
+    // Ejecutar la consulta
+    $result = $conn->query($query);
+
+    // Verificar si la consulta fue exitosa
+    if ($result) {
+        // Obtener el resultado como un arreglo asociativo
+        $row = $result->fetch_assoc();
+
+        // Obtener el número de tareas asignadas al usuario
+        $taskCount = $row['task_count'];
+
+        // Cerrar la conexión con la base de datos
+        $conn->close();
+
+        // Devolver el número de tareas asignadas
+        return $taskCount;
+    } else {
+        // Si hay un error en la consulta, manejarlo según sea necesario.
+        // Aquí puedes imprimir un mensaje de error o lanzar una excepción, según tus necesidades.
+        // También sería útil registrar el error para futuras investigaciones.
+        echo "Error en la consulta: " . $conn->error;
+        $conn->close();
+        return false;
+    }
+}

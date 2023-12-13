@@ -127,13 +127,23 @@
                                                 </script>';
                                             }
                                             $taskAssignedAlready = isTaskAssigned($task['id']);
+
                                             if ($taskAssignedAlready) {
                                                 echo '<button type="button" class="btn btn-primary disabled">Asignada</button>';
                                             } else {
-                                                echo '<form method="post" action="">
-                                                        <input type="hidden" name="task_id" value="' . $task['id'] . '">
-                                                        <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
-                                                    </form>';
+                                                $userId = $_SESSION['userid'];
+                                            
+                                                // Verificar cuántas tareas tiene asignadas el usuario
+                                                $userTaskCount = getUserTaskCount($userId);
+                                            
+                                                if ($userTaskCount >= 5) {
+                                                    echo '<button type="button" class="btn btn-primary disabled">Límite alcanzado</button>';
+                                                } else {
+                                                    echo '<form method="post" action="">
+                                                            <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                                            <button type="submit" name="assign_task" class="btn btn-primary">Asignar tarea</button>
+                                                          </form>';
+                                                }
                                             }
                                         }
                                         echo '
