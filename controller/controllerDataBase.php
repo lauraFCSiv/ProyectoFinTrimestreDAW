@@ -121,7 +121,12 @@ function getAllTasks($type){
     return $result;
 
 }
-
+/**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @return mixed
+ * Funcion para buscar las tareas en la base de datos.
+ */
 function searchTasksInDatabase($query, $type) {
    
     // Abrir conexión con la base de datos
@@ -214,6 +219,12 @@ function searchByFilter($query, $type) {
     // Devolver tareas
     return $tasks;
 }
+/**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @return mixed
+ * Funcion para eliminar las tareas.
+ */
 function eliminarTarea($taskId) {
     $conn = openConnectionDB();
 
@@ -324,8 +335,13 @@ function countTasks($type){
 
         closeConnectionDB($conn);
       }
-
-      function changeProfile($userId, $newDates) {
+    /**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @return mixed
+ * Funcion para cambiar los datos de un usuario.
+ */
+   function changeProfile($userId, $newDates) {
         $conn = openConnectionDB();
     
         // Asegúrate de escapar los datos para prevenir inyección SQL
@@ -349,12 +365,17 @@ function countTasks($type){
         closeConnectionDB($conn);
     }
     
-    
+    /**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @return mixed
+ * Funcion para saber que usuario creo las tareas.
+ */
     function getTaskCreatorId($taskId) {
         $conn = openConnectionDB();
     
         // Utilizamos una consulta preparada para evitar la inyección de SQL
-        $sql = "SELECT user_id FROM tasks WHERE id = ?";
+        $sql = "SELECT user_id FROM tasks WHERE id = user_creator";
         
         // Preparamos la consulta
         $stmt = $conn->prepare($sql);
@@ -380,7 +401,7 @@ function countTasks($type){
 
  /**
  * Obtener las tareas asignadas al usuario actual.
- *
+ * @author Eusebio U.
  * @param int $userid ID del usuario actual.
  * @return array Array de tareas asignadas al usuario.
  */
