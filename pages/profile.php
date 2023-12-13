@@ -44,23 +44,60 @@
                 <button class=" btn btn-outline-primary" onclick="changeTheme('calido')">Modo Cálido</button>
             </div>
         </div>
+        
+            <div class="row">
+                <div class="col mt-5">
+                <p class="profileText">Cambiar a administrador:</p>
+                     <!-- Enlace para abrir la ventana modal -->
+                <a href="#" class="btn btn-outline-primary" data-bs-toggle="modal"
+                    data-bs-target="#adminAccountModal">
+                    Modo administrador
+                </a>
 
+                <!-- Modal para confirmar el cambio de cuenta a administrador -->
+                <div class="modal fade" id="adminAccountModal" tabindex="-1" aria-labelledby="adminAccountModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="adminAccountModalLabel">Cambiar a modo administrador</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form method="POST" action="profile.php">
+                                <div class="modal-body text-center">
+                                    ¿Estás seguro de que deseas cambiar a modo administrador?
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- Botón de "Sí, cambiar cuenta a modo administrador" -->
+                                    <button type="submit" name="adminMode" class="btn btn-danger">Sí
+                                        </button>
+                                    <!-- Botón para cerrar el modal -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        
         <div class="row">
     <div class="col mt-5">
         <!-- Formulario para actualizar datos del usuario -->
         <form method="POST" action="profile.php">
             <div class="mb-3">
-                <label for="nuevo_nombre" class="form-label">Nuevo Nombre:</label>
+                <label for="nuevo_nombre" class="profileText form-label">Nuevo Nombre:</label>
                 <input type="text" name="nuevo_nombre" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="nuevo_email" class="form-label">Nuevo Email:</label>
+                <label for="nuevo_email" class="profileText form-label">Nuevo Email:</label>
                 <input type="email" name="nuevo_email" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <button type="submit" name="actualizarDatos" class="btn btn-primary">Actualizar Datos</button>
+                <button type="submit" name="actualizarDatos" class="btn btn-outline-primary">Actualizar Datos</button>
             </div>
         </form>
     </div>
@@ -116,6 +153,7 @@
                     }
                 }
 
+                //método para eliminar usuario actual
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteAccount'])) {
                     // Verificar si el usuario ha iniciado sesión
                     if (isset($_SESSION['userid'])) {
@@ -125,6 +163,16 @@
                         session_destroy();
                         // Redirigir a Login.
                         echo "<script>window.location.href='login.php'</script>";
+                    }
+                }
+
+                //método para cambiar a modo administrador
+                if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['adminMode'])) {
+                    // Verificar si el usuario ha iniciado sesión
+                    if (isset($_SESSION['userid'])) {
+                        // Una vez con la sesión activa, se decide pasar a modo administrador
+                        changeAccountToAdminMode($_SESSION['userid']);
+                        echo "<script>window.location.href='profile.php'</script>";
                     }
                 }
                 ?>

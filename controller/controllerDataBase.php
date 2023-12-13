@@ -1,17 +1,21 @@
 <?php
+
 /**
  * @package ConnectionDatabase
  */
 
- include('../connection/connectionDataBase.php');
+include('../connection/connectionDataBase.php');
 
 /**
  * @version 1.0.
  * @author Pablo A.
+ * @param String $user Nombre de usuario.
+ * @param String $password Contrasena de usuario.
  * @return mixed
  * Funcion de inicio de sesion de un usuario.
  */
-function login($user, $password){
+function login($user, $password)
+{
 
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
@@ -23,24 +27,24 @@ function login($user, $password){
     // Cerrar conexion una vez utilizada.
     closeConnectionDB($conn);
 
-    if (mysqli_num_rows($result) == 1){
+    if (mysqli_num_rows($result) == 1) {
         // En caso de encontrar un usuario, buscar si el usuario esta activo o no.
-        foreach ($result as $user){
+        foreach ($result as $user) {
             // Verificar si la contrasena introducida coincide con la contrasena en el servidor (esta esta hasheada).
-            if (password_verify($password, $user['password'])){
-                if ($user['active'] == 1){
+            if (password_verify($password, $user['password'])) {
+                if ($user['active'] == 1) {
                     // Si el usuario esta activo, devolver usuario.
                     return $result;
-                }else{
+                } else {
                     // Si el usuario no esta activo, devolver mensaje de error.
                     return 'Usuario deshabilitado';
                 }
-            }else{
+            } else {
                 // En caso de que la contrasena no sea asi, devolver mensaje de error.
-                return 'Usuario/Contraseña no valido/s';   
+                return 'Usuario/Contraseña no valido/s';
             }
         }
-    }else{
+    } else {
         // En caso de no en contrar un usuario, devolver mensaje de error.
         return 'Usuario/Contraseña no valido/s';
     }
@@ -49,10 +53,14 @@ function login($user, $password){
 /**
  * @version 1.0.
  * @author Pablo A.
+ * @param String $user Nombre de usuario.
+ * @param String $email Email de usuario.
+ * @param String $password Contrasena de usuario.
  * @return mixed
  * Funcion de registro de un usuario a la aplicacion.
  */
-function register($user, $email, $password){
+function register($user, $email, $password)
+{
 
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
@@ -68,7 +76,7 @@ function register($user, $email, $password){
     $query2 = "SELECT * FROM `users` WHERE `email` = '$email'";
     $result2 = $conn->query($query2);
 
-    if (mysqli_num_rows($result1) == 0 && mysqli_num_rows($result2) == 0){
+    if (mysqli_num_rows($result1) == 0 && mysqli_num_rows($result2) == 0) {
         // En caso de que no se haya encontrado ningun usuario con ese nombre de usuario y ese correo, insertar en base de datos el nuevo usuario
         $query3 = "INSERT INTO `users` (`username`, `email`, `password`, `active`) VALUES ('$user', '$email', '$passwordHash', 1)";
         $result3 = $conn->query($query3);
@@ -76,16 +84,16 @@ function register($user, $email, $password){
         closeConnectionDB($conn);
         // Devolver resultado.
         return $result3;
-    }else{
+    } else {
         // Cerrar conexion una vez utilizada.
         closeConnectionDB($conn);
         // Mensaje error
         $error = "";
-        if (mysqli_num_rows($result1) >= 1){
+        if (mysqli_num_rows($result1) >= 1) {
             $error = "Nombre de usuario ya utilizado.<br>";
-        } 
-        if (mysqli_num_rows($result2) >= 1){
-            $error = $error."Correo electronico ya utilizado.";
+        }
+        if (mysqli_num_rows($result2) >= 1) {
+            $error = $error . "Correo electronico ya utilizado.";
         }
         return $error;
     }
@@ -94,17 +102,20 @@ function register($user, $email, $password){
 /**
  * @version 1.0.
  * @author Pablo A.
+ * @param String $type Tipo de filtro.
+ * @return mysqli_result $result Resultado de la consulta.
  * Obtener todas las tareas alamcenadas en base de datos, y teniendo en cuenta de si se quieren filtrar segun su estado (No asignadas, asignadas y finalizadas).
  * Hace una subconsulta con la tabla categorias para obtener a parte el nombre de la categoria asignada.
  */
-function getAllTasks($type){
-   
+function getAllTasks($type)
+{
+
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
 
     // Consulta que obtiene todas tareas de base de datos, y en funcion de si queremos buscar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas).
     $query = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
-    switch ($type){
+    switch ($type) {
         case 'all':
             break;
         case 'finished':
@@ -119,7 +130,6 @@ function getAllTasks($type){
 
     // Devolver resultado
     return $result;
-
 }
 /**
  * @version 1.0.
@@ -137,7 +147,7 @@ function searchTasksInDatabase($query, $type) {
 
     // Realizar la consulta SQL para buscar tareas por nombre, y en funcion de si queremos buscar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas)
     $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `tasks`.`name` LIKE '%$query%'";
-    switch ($type){
+    switch ($type) {
         case 'all':
             // Si no se selecciona ninguna opción de categoria, la consulta permanece igual
             break;
@@ -166,7 +176,8 @@ function searchTasksInDatabase($query, $type) {
     return $tasks;
 }
 
-function searchByFilter($query, $type) {
+function searchByFilter($query, $type)
+{
 
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
@@ -174,18 +185,18 @@ function searchByFilter($query, $type) {
     // Escapar caracteres especiales en la consulta
     $query = $conn->real_escape_string($query);
 
-        // Construir la consulta SQL para buscar tareas por nombre y ordenar según el criterio seleccionado, y teniendo en cuenta 
-        $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name', `users`.`username` as 'username' FROM `tasks` LEFT JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` LEFT JOIN `users` ON `tasks`.`user_id` = `users`.`id`";
-        switch ($type){
-            case 'all':
-                break;
-            case 'finished':
-                $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
-                break;
-            case 'assigned':
-                $sql .= " WHERE `tasks`.`status` = 'Asignada'";
-                break;
-        }
+    // Construir la consulta SQL para buscar tareas por nombre y ordenar según el criterio seleccionado, y teniendo en cuenta 
+    $sql = "SELECT `tasks`.*, `categories`.`name` as 'category_name', `users`.`username` as 'username' FROM `tasks` LEFT JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` LEFT JOIN `users` ON `tasks`.`user_id` = `users`.`id`";
+    switch ($type) {
+        case 'all':
+            break;
+        case 'finished':
+            $sql .= " WHERE `tasks`.`status` = 'Finalizada'";
+            break;
+        case 'assigned':
+            $sql .= " WHERE `tasks`.`status` = 'Asignada'";
+            break;
+    }
 
     switch ($query) {
         case 'category_name':
@@ -230,17 +241,17 @@ function eliminarTarea($taskId) {
 
     // Utilizamos una consulta preparada para evitar la inyección de SQL
     $sql = "DELETE FROM tasks WHERE id = ?";
-    
+
     // Preparamos la consulta
     $stmt = $conn->prepare($sql);
-    
+
     // Vinculamos el parámetro
     $stmt->bind_param("i", $taskId);
-    
+
     // Ejecutamos la consulta
     if ($stmt->execute()) {
         // Éxito al eliminar la tarea
-       
+
     } else {
         // Manejar el error si es necesario
         echo "Error al eliminar la tarea: " . $stmt->error;
@@ -251,7 +262,8 @@ function eliminarTarea($taskId) {
     closeConnectionDB($conn);
 }
 
-function getNextTasksDate(){
+function getNextTasksDate()
+{
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
 
@@ -261,18 +273,19 @@ function getNextTasksDate(){
 
     // Cerrar la conexión a la base de datos
     $conn->close();
-    
+
     return $result;
 }
 
-function countTasks($type){
-   
+function countTasks($type)
+{
+
     // Abrir conexion con la base de datos.
     $conn = openConnectionDB();
 
     // Consulta que obtiene todas tareas de base de datos, y en funcion de si queremos contar todas las tareas o unas tareas segun su estado (No asignadas, asignadas y finalizadas).
     $query = "SELECT COUNT(*) as 'count' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id`";
-    switch ($type){
+    switch ($type) {
         case 'all':
             break;
         case 'finished':
@@ -290,48 +303,51 @@ function countTasks($type){
 
     // Devolver el número de tareas.
     return $row['count'];
-
 }
 
 /**
- * Comprueba si un usuario ya tiene la tarea signada
- *
+ * @version 1.0.
+ * @author Marco
+ * Comprueba si un usuario ya tiene la tarea asignada
  * @param int $taskIdID id de una tarea seleccionada.
  * @return mixed
  */
-    function isTaskAssigned($taskId){
-        $conn = openConnectionDB();
+function isTaskAssigned($taskId)
+{
+    $conn = openConnectionDB();
 
-        $query = "SELECT * FROM `tasks` WHERE `id` = '$taskId' AND `user_id` IS NOT NULL";
-        $result = $conn->query($query);
+    $query = "SELECT * FROM `tasks` WHERE `id` = '$taskId' AND `user_id` IS NOT NULL";
+    $result = $conn->query($query);
 
-        closeConnectionDB($conn);
+    closeConnectionDB($conn);
 
-        return mysqli_num_rows($result) > 0;
-    }
+    return mysqli_num_rows($result) > 0;
+}
 
-    //Asignamos tarea a un usuario
-    function assignTaskToUser($userId, $taskId) {
-        $conn = openConnectionDB();
+//Asignamos tarea a un usuario
+function assignTaskToUser($userId, $taskId)
+{
+    $conn = openConnectionDB();
 
-        $query = "UPDATE tasks SET user_id = $userId, status = 'Asignada' WHERE id = $taskId";
-        $conn->query($query);
-    
-        closeConnectionDB($conn);
-    }
+    $query = "UPDATE tasks SET user_id = $userId, status = 'Asignada' WHERE id = $taskId";
+    $conn->query($query);
+
+    closeConnectionDB($conn);
+}
 
 /**
- *Función que se encarga de "eliminar" un usuario cambiando valores en la columna "active"
- * con 1 por defecto a 0
- *
+ * @version 1.0.
+ * @author Marco
+ * Función que se encarga de "eliminar" el usuario actual cambiando valores en la columna "active"
+ * con un 1 por defecto a 0
  * @param int $userid ID del usuario actual.
- * @return mixed
  */
-    function deleteAccount($userId) {
-        $conn = openConnectionDB();
-          // Se actualiza la columna 'active' a 0 para el usuario
-        $query = "UPDATE users SET active = 0 WHERE id = $userId";
-        $conn->query($query);
+function deleteAccount($userId)
+{
+    $conn = openConnectionDB();
+    // Se actualiza la columna 'active' a 0 para el usuario actual
+    $query = "UPDATE users SET active = 0 WHERE id = $userId";
+    $conn->query($query);
 
         closeConnectionDB($conn);
       }
@@ -401,11 +417,31 @@ function countTasks($type){
 
  /**
  * Obtener las tareas asignadas al usuario actual.
+    closeConnectionDB($conn);
+}
+/**
+ * @version 1.0.
+ * @author Marco
+ * Función que se encarga de "cambiar" el usuario actual cambiando valores en la columna "admin"
+ * con un 0 por defecto a 1.
+ * @param int $userid ID del usuario actual.
+ */
+function changeAccountToAdminMode($userId)
+{
+    $conn = openConnectionDB();
+    //Se actualiza la columna "admin" a 1 para el usuario actual
+    $query = "UPDATE users SET admin = 1 WHERE id = $userId";
+    $conn->query($query);
+    closeConnectionDB($conn);
+}
+
+/**
  * @author Eusebio U.
  * @param int $userid ID del usuario actual.
  * @return array Array de tareas asignadas al usuario.
+ * Obtener las tareas asignadas al usuario actual.
  */
-function getMytasks($userid)
+function getMyAsignedTasks($userid)
 {
     // Abrir conexión con la base de datos.
     $conn = openConnectionDB();
@@ -414,7 +450,7 @@ function getMytasks($userid)
     $userid = $conn->real_escape_string($userid);
 
     // Consulta para obtener las tareas asignadas al usuario.
-    $query = "SELECT * FROM `tasks` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_id` = '$userid' AND `status` = 'Asignada'";
     $result = $conn->query($query);
 
     // Almacenar los resultados en un array.
@@ -432,12 +468,90 @@ function getMytasks($userid)
     return $tasks;
 }
 
+/**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @param int $userid ID del usuario actual.
+ * @return array Array de tareas asignadas al usuario.
+ * Obtener las tareas finalizadas al usuario actual.
+ */
+function getMyFinishedTasks($userid)
+{
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
 
-function finishTask($taskId){
-  $conn = openConnectionDB();
-  $query = "UPDATE tasks SET status = 'Finalizada' WHERE id = $taskId";
-  $conn->query($query);
-  
-  closeConnectionDB($conn);
+    // Escapar el ID del usuario para evitar inyecciones SQL.
+    $userid = $conn->real_escape_string($userid);
+
+    // Consulta para obtener las tareas asignadas al usuario.
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_id` = '$userid' AND `status` = 'Finalizada'";
+    $result = $conn->query($query);
+
+    // Almacenar los resultados en un array.
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array.
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos.
+    $conn->close();
+
+    // Devolver tareas asignadas al usuario.
+    return $tasks;
 }
-?>
+
+/**
+ * @version 1.0.
+ * @author Pablo A.
+ * @param int $taskId ID de la tarea actual.
+ * Funcion de actualizar el estado de una tarea de asignada a finalizada.
+ */
+function finishTask($taskId)
+{
+    $conn = openConnectionDB();
+    $query = "UPDATE tasks SET status = 'Finalizada', end_date = CURRENT_DATE WHERE id = $taskId";
+    $conn->query($query);
+
+    closeConnectionDB($conn);
+}
+
+
+function getCategories()
+{
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
+
+    // Consulta para obtener todas las categorías.
+    $query = "SELECT `categories`.*, `categories`.`id` as 'id' FROM `categories`";
+
+    // Ejecutar la consulta.
+    $result = $conn->query($query);
+
+    // Cerrar la conexión
+    closeConnectionDB($conn);
+
+    // Devolver resultado
+    return $result;
+}
+
+
+function insertTask($taskName, $description, $dueDate, $category, $user_creator)
+{
+    // Abrir conexión con la base de datos
+    $conn = openConnectionDB();
+
+    // Consulta SQL corregida
+    $sql = "INSERT INTO `tasks` (`name`, `description`, `category_id`, `status`, `start_date`, `end_date`, `due_date`, `user_creator`, `user_id`)
+            VALUES ('$taskName', '$description', $category, 'Nueva', CURRENT_DATE, NULL, '$dueDate', $user_creator, NULL)";
+
+    // Ejecutar la consulta
+    $result = $conn->query($sql);
+
+    // Cerrar la conexión
+    closeConnectionDB($conn);
+
+    // Devolver el resultado de la consulta (true si se insertó correctamente, false si hubo un error)
+    return $result;
+}
