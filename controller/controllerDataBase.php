@@ -353,9 +353,10 @@ function deleteAccount($userId)
     $query = "UPDATE users SET active = 0 WHERE id = $userId";
     $conn->query($query);
 
-        closeConnectionDB($conn);
-      }
-    /**
+    closeConnectionDB($conn);
+}
+
+/**
  * @version 1.0.
  * @author Eusebio U.
  * @return mixed
@@ -537,7 +538,7 @@ function getCategories(){
 }
 
 
-function insertTask($nombre, $descripcion, $fechaEntrega, $categoria, $user_creator) {
+function insertTask($taskName, $description, $dueDate, $category, $user_creator) {
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
