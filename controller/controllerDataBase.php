@@ -530,6 +530,40 @@ function getMyFinishedTasks($userid)
 
 /**
  * @version 1.0.
+ * @author Alejandra.
+ * @param int $userid ID del usuario actual.
+ * @return array Array de tareas asignadas al usuario.
+ * Obtener las tareas finalizadas al usuario actual.
+ */
+function getMyCreatedTasks($userid)
+{
+    // Abrir conexión con la base de datos.
+    $conn = openConnectionDB();
+
+    // Escapar el ID del usuario para evitar inyecciones SQL.
+    $userid = $conn->real_escape_string($userid);
+
+    // Consulta para obtener las tareas asignadas al usuario.
+    $query = "SELECT `tasks`.*, `categories`.`name`as 'category_name' FROM `tasks` INNER JOIN `categories` ON `tasks`.`category_id` = `categories`.`id` WHERE `user_creator` = '$userid'";
+    $result = $conn->query($query);
+
+    // Almacenar los resultados en un array.
+    $tasks = array();
+
+    // Recorrer los resultados y almacenar en el array.
+    while ($row = $result->fetch_assoc()) {
+        $tasks[] = $row;
+    }
+
+    // Cerrar la conexión a la base de datos.
+    $conn->close();
+
+    // Devolver tareas asignadas al usuario.
+    return $tasks;
+}
+
+/**
+ * @version 1.0.
  * @author Pablo A.
  * @param int $taskId ID de la tarea actual.
  * Funcion de actualizar el estado de una tarea de asignada a finalizada.
