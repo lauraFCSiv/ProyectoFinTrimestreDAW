@@ -179,7 +179,12 @@ function searchTasksInDatabase($query, $type) {
     // Devolver tareas
     return $tasks;
 }
-
+/**
+ * @version 1.0.
+ * @author Eusebio U.
+ * @return mixed
+ * Funcion para filtrar las tareas.
+ */
 function searchByFilter($query, $type)
 {
 
