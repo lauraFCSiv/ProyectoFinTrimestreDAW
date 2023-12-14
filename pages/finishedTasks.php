@@ -102,7 +102,7 @@
                         <!-- //*Diseño carta -->
                         <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal'.$task['id'].'">
                             <div class="card h-100 w-100 text-center border border-black m-2" id="idCard'.$task['id'].'">
-                                <div class="card-header text-dark">
+                                <div class="card-header text">
                                     <h5>'.$task['name'].'</h5>
                                     <h6>'.$task['category_name'].'</h6>
                                 </div>
