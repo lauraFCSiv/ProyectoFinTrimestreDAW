@@ -27,7 +27,7 @@ include('../controller/controllerDataBase.php');
     ?>
     <div class="container">
         <div class="row mt-5 align-items-center">
-            <div>
+            <div class="row">
                 <h3>Mis Tareas Asignadas</h3>
                 <?php
                 // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
@@ -40,7 +40,7 @@ include('../controller/controllerDataBase.php');
                     echo '
                         <!-- //*Diseño carta -->
                         <div class="col-3 card-container" data-bs-toggle="modal" data-bs-target="#exampleModal' . $task['id'] . '">
-                            <div class="card text-center border border-black m-2" id="idCard' . $task['id'] . '">
+                            <div class="card h-100 w-100 text-center border border-black m-2" id="idCard' . $task['id'] . '">
                                 <div class="card-header">
                                     <h5>' . $task['name'] . '</h5>
                                     <h6>' . $task['category_name'] . '</h6>
@@ -73,7 +73,7 @@ include('../controller/controllerDataBase.php');
                 }
                 ?>
             </div>
-            <div>
+            <div class="row mt-5">
                 <h3>Mis Tareas Finalizadas</h3>
                 <?php
                 // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
@@ -119,7 +119,7 @@ include('../controller/controllerDataBase.php');
                 }
                 ?>
             </div>
-            <div>
+            <div class="row mt-5">
                 <h3>Mis Tareas Creadas</h3>
                 <?php
                 // Obtener el ID del usuario logeado desde la sesión (debería estar ya iniciada)
