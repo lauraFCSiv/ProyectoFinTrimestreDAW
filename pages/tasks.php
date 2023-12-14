@@ -165,7 +165,7 @@
                 // Eliminar tarea:
                 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["deleteTask"])) {
                     $taskIdToDelete = $_POST["deleteTask"];
-                    eliminarTarea($taskIdToDelete);
+                    deleteTask($taskIdToDelete);
                     // Después de eliminar, redirige o actualiza la página según sea necesario
                     echo "<script>window.location.href='tasks.php'</script>";
                 }

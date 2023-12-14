@@ -50,6 +50,7 @@ footer {
   color: #FFFFFF;
 }
 
+
 /* Hover para las cartas  */
 .card-container .card:hover {
   transform: scale(1.05);
@@ -68,4 +69,9 @@ footer {
 
 .navbar-brand{
   color: #FFFFFF;
+}
+
+/* Color de texto para enlaces en modo oscuro */
+.navbar-nav .nav-link {
+  color: #FFFFFF; 
 }

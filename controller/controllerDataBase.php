@@ -240,7 +240,7 @@ function searchByFilter($query, $type)
  * @return mixed
  * Funcion para eliminar las tareas.
  */
-function eliminarTarea($taskId) {
+function deleteTask($taskId) {
     $conn = openConnectionDB();
 
     // Utilizamos una consulta preparada para evitar la inyección de SQL
@@ -587,32 +587,6 @@ function getUserTaskCount($ID_user){
         $conn->close();
         return false;
     }
-}
-
-function isUserAdmin($userId)
-{
-    $conn = openConnectionDB();
-
-    // Utilizamos un parámetro en la consulta para verificar un usuario específico
-    $query = "SELECT admin FROM users WHERE id = $userId";
-
-    // Ejecutamos la consulta
-    $result = $conn->query($query);
-
-    // Verificamos si la consulta fue exitosa y si hay al menos una fila de resultado
-    if ($result && $result->num_rows > 0) {
-        // Obtenemos la primera fila de resultado
-        $row = $result->fetch_assoc();
-
-        // Devolvemos el valor de la columna "admin"
-        return $row['admin'] == 1;
-    }
-
-    // Cerramos la conexión
-    closeConnectionDB($conn);
-
-    // En caso de error o si no se encontraron resultados, asumimos que el usuario no es administrador
-    return false;
 }
 
 ?>
