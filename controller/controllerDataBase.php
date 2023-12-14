@@ -272,7 +272,12 @@ function deleteTask($taskId)
     $stmt->close();
     closeConnectionDB($conn);
 }
-
+/**
+ * @version 1.0.
+ * @author Alejandra.
+ * @return mixed
+ * Funcion para filtrar las tres ultimas tareas que no estan finalizadas.
+ */
 function getNextTasksDate()
 {
     // Abrir conexion con la base de datos.
@@ -287,7 +292,12 @@ function getNextTasksDate()
 
     return $result;
 }
-
+/**
+ * @version 1.0.
+ * @author David.
+ * @return mixed
+ * Funcion para contar el numero de tareas finalizadas.
+ */
 function countTasks($type)
 {
 
@@ -335,7 +345,12 @@ function isTaskAssigned($taskId)
     return mysqli_num_rows($result) > 0;
 }
 
-//Asignamos tarea a un usuario
+/**
+ * @version 1.0.
+ * @author Pablo.
+ * @return mixed
+ * Funcion para que un usuario se pueda asignar una tarea.
+ */
 function assignTaskToUser($userId, $taskId)
 {
     $conn = openConnectionDB();
@@ -527,7 +542,12 @@ function finishTask($taskId)
     closeConnectionDB($conn);
 }
 
-
+/**
+ * @version 1.0.
+ * @author David.
+ * @return mixed
+ * Funcion para elegir la categoria desde base de datos.
+ */
 function getCategories()
 {
     // Abrir conexión con la base de datos.
@@ -546,7 +566,12 @@ function getCategories()
     return $result;
 }
 
-
+/**
+ * @version 1.0.
+ * @author David.
+ * @return mixed
+ * Funcion para que un usuario puedo crear una tarea.
+ */
 function insertTask($taskName, $description, $dueDate, $category, $user_creator)
 {
     // Abrir conexión con la base de datos
@@ -565,7 +590,12 @@ function insertTask($taskName, $description, $dueDate, $category, $user_creator)
     // Devolver el resultado de la consulta (true si se insertó correctamente, false si hubo un error)
     return $result;
 }
-
+/**
+ * @version 1.0.
+ * @author David.
+ * @return mixed
+ * Funcion para que un usuario no se pueda asignar tareas si tiene 5 tareas ya asignadas.
+ */
 function getUserTaskCount($ID_user)
 {
 
