@@ -377,6 +377,7 @@ function deleteAccount($userId)
 
     closeConnectionDB($conn);
 }
+
 /**
  * @version 1.0.
  * @author Eusebio U.
@@ -566,14 +567,14 @@ function getCategories()
     return $result;
 }
 
+
 /**
  * @version 1.0.
  * @author David.
  * @return mixed
  * Funcion para que un usuario puedo crear una tarea.
  */
-function insertTask($taskName, $description, $dueDate, $category, $user_creator)
-{
+function insertTask($taskName, $description, $dueDate, $category, $user_creator) {
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
@@ -590,6 +591,7 @@ function insertTask($taskName, $description, $dueDate, $category, $user_creator)
     // Devolver el resultado de la consulta (true si se insertó correctamente, false si hubo un error)
     return $result;
 }
+
 /**
  * @version 1.0.
  * @author David.
