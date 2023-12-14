@@ -102,38 +102,47 @@
                         </div>
 
                         <!-- //*Popup de la carta (Modal) -->
-                            <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            '.$task['description'].'
-                                        </div>
-                                    <div class="modal-footer">';
-                                    if ($task['user_id'] == $_SESSION['userid']){
-                                        if ($_SESSION['userid'] == $task['user_creator']){
-                                            echo '
-                                            <!-- Formulario simplificado para eliminar la tarea -->
-                                            <form method="post" action="">
-                                                <input type="hidden" name="deleteTask" value="'.$task['id'].'">
-                                                <button type="submit" class="btn btn-danger">Eliminar</button>
-                                            </form>';
+                        <div class="modal fade" id="exampleModal'.$task['id'].'" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">'.$task['name'].'</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        '.$task['description'].'
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>';
+                                        if (isset($_SESSION['userid'])) {
+                                            if ($_SESSION['userid'] == $task['user_creator']) {
+                                                echo '
+                                                <!-- Formulario para eliminar la tarea con confirmación -->
+                                                <form method="post" action="" onsubmit="return confirmDelete();">
+                                                    <input type="hidden" name="deleteTask" value="'.$task['id'].'">
+                                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                </form>
+                                        
+                                                <!-- Script de JavaScript para la confirmación -->
+                                                <script>
+                                                    function confirmDelete() {
+                                                       return confirm("¿Estás seguro de que quieres eliminar esta tarea?");
+                                                    }
+                                                </script>';
+                                            }
+                                            if ($_SESSION['userid'] == $task['user_id']){
+                                                echo '<form method="post" action="">
+                                                <input type="hidden" name="task_id" value="' . $task['id'] . '">
+                                                    <button type="submit" name="finish_task" class="btn btn-primary">Finalizar tarea</button>
+                                                </form>';
+                                            }
                                         }
-                                        echo '<form method="post" action="">
-                                            <input type="hidden" name="task_id" value="' . $task['id'] . '">
-                                            <button type="submit" name="finish_task" class="btn btn-primary">Finalizar tarea</button>
-                                        </form>';
-                                    }
-                                        echo '<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        echo '
                                     </div>
                                 </div>
                             </div>
                         </div>';
-                        } 
-                        
+                }       
                     //Solicitar finalizar tarea:
                     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finish_task'])) {
                         if (isset($_SESSION['userid'])) {

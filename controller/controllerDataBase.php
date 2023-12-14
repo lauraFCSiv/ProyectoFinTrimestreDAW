@@ -357,6 +357,7 @@ function deleteAccount($userId)
 
     closeConnectionDB($conn);
 }
+
 /**
  * @version 1.0.
  * @author Eusebio U.
@@ -542,8 +543,7 @@ function getCategories()
 }
 
 
-function insertTask($taskName, $description, $dueDate, $category, $user_creator)
-{
+function insertTask($taskName, $description, $dueDate, $category, $user_creator) {
     // Abrir conexión con la base de datos
     $conn = openConnectionDB();
 
